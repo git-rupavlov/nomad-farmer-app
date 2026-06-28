@@ -1,4 +1,7 @@
 import type { FarmTile } from "../domain/types";
+import { getImprovementArchetype } from "../data/improvementArchetypes";
+import { getTerrainArchetype } from "../data/terrainArchetypes";
+import { unlockTree } from "../data/unlockTree";
 import { useGameStore } from "../store/useGameStore";
 
 export function FarmCityScreen() {
@@ -36,6 +39,16 @@ export function FarmCityScreen() {
           <Meter label="Health" value={farm.health * 10} />
           <Meter label="Happiness" value={farm.happiness * 10} />
           <p className="small">Maintenance: {farm.maintenance} | Budget spent: {farm.budgetSpent} лв</p>
+
+          <h2>Unlock Tree</h2>
+          <div className="unlock-list">
+            {unlockTree.map((node) => (
+              <article key={node.id} className={`unlock-node ${node.unlocked ? "unlocked" : "locked"}`}>
+                <strong>{node.name}</strong>
+                <span>{node.unlocked ? "Unlocked" : "Locked"}</span>
+              </article>
+            ))}
+          </div>
         </aside>
 
         <main className="city-center panel">
@@ -100,12 +113,25 @@ function Meter({ label, value }: { label: string; value: number }) {
 }
 
 function TileCard({ tile, onClick }: { tile: FarmTile; onClick: () => void }) {
+  const terrain = getTerrainArchetype(tile.terrainArchetypeId);
+  const improvement = getImprovementArchetype(tile.improvementArchetypeId);
+  const combinedYields = {
+    water: (terrain?.baseYields.water ?? 0) + (improvement?.yieldChanges.water ?? 0),
+    labor: (terrain?.baseYields.labor ?? 0) + (improvement?.yieldChanges.labor ?? 0),
+    budget: (terrain?.baseYields.budget ?? 0) + (improvement?.yieldChanges.budget ?? 0),
+  };
+
   return (
     <button className={`tile-card ${tile.workedByCitizen ? "worked" : "idle"}`} onClick={onClick}>
       <strong>{tile.name}</strong>
-      <span>{tile.terrain}{tile.improvement ? ` / ${tile.improvement}` : ""}</span>
+      <span className="tile-subtitle">{terrain?.name ?? tile.terrain}</span>
       <span>🥖 {tile.yields.water} ⚒ {tile.yields.labor} 🪙 {tile.yields.budget}</span>
-      <small>Sun {tile.sun} | Soil {tile.soil} | Pests {tile.pestPressure}</small>
+      <small>Archetype base: 🥖 {combinedYields.water} ⚒ {combinedYields.labor} 🪙 {combinedYields.budget}</small>
+      {improvement ? <small>Improvement: {improvement.name}</small> : <small>No improvement</small>}
+      <small>{terrain?.civInspiredBy}</small>
+      <small>Sun {tile.sun} | Soil {tile.soil} | Water {tile.waterRetention} | Pests {tile.pestPressure}</small>
+      <p className="tile-description">{terrain?.description}</p>
+      {improvement ? <p className="tile-description">{improvement.description}</p> : null}
     </button>
   );
 }
