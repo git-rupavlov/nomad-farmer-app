@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { emptyCityYields } from "../data/cityYields";
 import { initialFarms } from "../data/farms";
-import type { Farm } from "../domain/types";
+import { plantFertilizerDemand, plantWaterDemand } from "../domain/inventory";
+import type { Farm, PlantStage } from "../domain/types";
 
 interface GameState {
   farms: Farm[];
@@ -72,19 +73,31 @@ export const useGameStore = create<GameState>((set, get) => ({
         { ...emptyCityYields }
       );
 
-      const storedWater = Math.max(0, Math.min(100, farm.storedWater + yields.food - farm.plants.length * 3));
-      const fertilizer = Math.max(0, Math.min(100, farm.fertilizer - farm.plants.length));
+      const waterDemand = plantWaterDemand(farm);
+      const fertilizerDemand = plantFertilizerDemand(farm);
+      const storedWater = Math.max(0, Math.min(100, farm.storedWater + yields.food - waterDemand));
+      const fertilizer = Math.max(0, Math.min(100, farm.fertilizer - fertilizerDemand));
       const stress = storedWater < 20 || fertilizer < 10 ? 8 : 0;
       const maintenanceStress = Math.max(0, yields.maintenance - yields.goods);
 
-      const plants = farm.plants.map((plant) => ({
-        ...plant,
-        daysOld: plant.daysOld + 1,
-        health: Math.max(0, Math.min(100, plant.health + farm.health - farm.maintenance - stress - maintenanceStress)),
-        stage: advanceStage(plant.stage, plant.daysOld + 1)
-      }));
+      const plantInventory = farm.plantInventory.map((plant) => {
+        const nextHealth = Math.max(0, Math.min(100, plant.health + farm.health - farm.maintenance - stress - maintenanceStress));
+        const nextStage = advanceStage(plant.stage, plant.daysOld + 1);
+        return {
+          ...plant,
+          daysOld: plant.daysOld + 1,
+          health: nextHealth,
+          stage: nextStage,
+          status: nextHealth < 35 ? "stressed" as const : plant.status === "planned" ? "active" as const : plant.status,
+          observed: {
+            ...plant.observed,
+            flowering: plant.observed.flowering || nextStage === "flowering" || nextStage === "fruiting" || nextStage === "harvest",
+            fruiting: plant.observed.fruiting || nextStage === "fruiting" || nextStage === "harvest"
+          }
+        };
+      });
 
-      if (stress) messages.push(`${farm.name}: resource stress is hurting plants.`);
+      if (stress) messages.push(`${farm.name}: resource stress is hurting plant inventory.`);
       if (maintenanceStress > 0) messages.push(`${farm.name}: maintenance pressure is rising.`);
 
       return {
@@ -93,7 +106,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         storedWater,
         fertilizer,
         budgetSpent: farm.budgetSpent + Math.max(0, -yields.budget),
-        plants
+        plantInventory
       };
     });
 
@@ -105,7 +118,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   })
 }));
 
-function advanceStage(stage: Farm["plants"][number]["stage"], daysOld: number) {
+function advanceStage(stage: PlantStage, daysOld: number): PlantStage {
   if (daysOld > 70) return "harvest";
   if (daysOld > 50) return "fruiting";
   if (daysOld > 35) return "flowering";
