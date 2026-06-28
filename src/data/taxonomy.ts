@@ -17,6 +17,11 @@ export type StatKey =
   | "security"
   | "biomass_capacity";
 
+// Specs are signed numeric modifiers.
+// Positive values add/increase a resource or pressure.
+// Negative values consume/reduce a resource or pressure.
+// Zero means neutral/no direct effect and may be omitted.
+// Example: nitrogen: -1 consumes nitrogen, nitrogen: 1 adds/supports nitrogen, nitrogen: 0 is neutral.
 export type Specs = Partial<Record<StatKey, number>>;
 
 export interface TaxonomyNode {
