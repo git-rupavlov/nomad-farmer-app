@@ -17,8 +17,8 @@ export const improvementArchetypes: ImprovementArchetype[] = [
     name: "Trellis",
     civInspiredBy: "Farm / route support logic",
     description: "Vertical support for tomatoes, beans, squash experiments, and the eternal human urge to tie plants to sticks.",
-    yieldChanges: { water: 0, labor: 2, budget: 0 },
-    effects: ["Improves climbing crop control", "Adds labor value to worked tile"],
+    yieldChanges: { food: 1, maintenance: -1, goods: 1, budget: 0, science: 0, culture: 0 },
+    effects: ["Improves climbing crop control", "Reduces maintenance pressure on vine crops"],
     unlockTechId: "tech-plant-supports",
     tags: ["support", "vertical", "climbing-crops"]
   },
@@ -27,7 +27,7 @@ export const improvementArchetypes: ImprovementArchetype[] = [
     name: "Mulch Layer",
     civInspiredBy: "Feature preservation / improvement modifier",
     description: "Organic cover that reduces evaporation and protects soil structure.",
-    yieldChanges: { water: 1, labor: 0, budget: 0 },
+    yieldChanges: { food: 0, maintenance: -0.5, goods: 0, budget: 0, science: 0, culture: 0.5 },
     effects: ["Improves water retention", "Reduces stress on hot days"],
     unlockTechId: "tech-soil-care",
     tags: ["soil", "water", "organic"]
@@ -37,7 +37,7 @@ export const improvementArchetypes: ImprovementArchetype[] = [
     name: "Drip Irrigation",
     civInspiredBy: "Irrigation chain",
     description: "Targeted watering system that makes the farm less dependent on remembering things. Bold technology for humans.",
-    yieldChanges: { water: 3, labor: -1, budget: 0 },
+    yieldChanges: { food: 1, maintenance: -2, goods: 0, budget: -1, science: 0.5, culture: 0 },
     effects: ["Strong water stability", "Reduces routine watering labor"],
     unlockTechId: "tech-irrigation",
     tags: ["water", "automation", "infrastructure"]
@@ -47,7 +47,7 @@ export const improvementArchetypes: ImprovementArchetype[] = [
     name: "Compost Layer",
     civInspiredBy: "Farm yield improvement",
     description: "Buried or top-dressed organic matter feeding soil life and future crops.",
-    yieldChanges: { water: 1, labor: 1, budget: 0 },
+    yieldChanges: { food: 1, maintenance: -0.5, goods: 1, budget: 0, science: 0.5, culture: 0.5 },
     effects: ["Improves soil over time", "Adds slow nutrient support"],
     unlockTechId: "tech-composting",
     tags: ["soil", "fertility", "organic"]
@@ -57,7 +57,7 @@ export const improvementArchetypes: ImprovementArchetype[] = [
     name: "Shade Net",
     civInspiredBy: "Defensive terrain modifier",
     description: "Heat and sun protection for fragile crops and seedlings during brutal balcony summers.",
-    yieldChanges: { water: 1, labor: 0, budget: 0 },
+    yieldChanges: { food: 0, maintenance: -0.5, goods: 0, budget: 0, science: 0, culture: 0 },
     effects: ["Reduces heat stress", "Can lower light for sun-loving crops"],
     unlockTechId: "tech-climate-control",
     tags: ["protection", "summer", "microclimate"]
@@ -67,7 +67,7 @@ export const improvementArchetypes: ImprovementArchetype[] = [
     name: "Cold Frame",
     civInspiredBy: "Building-like plot improvement",
     description: "Small protection structure for seedlings and season extension.",
-    yieldChanges: { water: 1, labor: 1, budget: 0 },
+    yieldChanges: { food: 1, maintenance: -0.5, goods: 0, budget: 0, science: 1, culture: 0 },
     effects: ["Protects seedlings", "Extends growing window"],
     unlockTechId: "tech-season-extension",
     tags: ["greenhouse", "seedlings", "protection"]
