@@ -75,6 +75,16 @@ This keeps each location comparable while allowing stats to differ based on actu
 - plants grouped as fruit trees, berry bushes, herbs, vegetables, flowers and weeds
 - resource/stat keys: `maintenance`, `water`, `sunlight`, `shade`, `soil_moisture`, `biomass_green`, `biomass_brown`, `wood_ash`, `wood_material`, `pollinators`, `seeds`, `nitrogen`, `phosphorus`, `potassium`, `soil_airflow`, `security`, `biomass_capacity`
 
+Specs are signed numeric modifiers:
+
+```ts
+nitrogen: -1 // consumes or reduces nitrogen
+nitrogen: 0  // neutral, usually omitted
+nitrogen: 1  // adds or supports nitrogen
+```
+
+Use numbers, not quoted strings. `"-1"` looks innocent right up until arithmetic turns into performance art.
+
 Catalogs may expose app-specific IDs, but their canonical names and taxonomy IDs should come from this layer whenever possible. Yes, this is bureaucracy, but the useful kind, allegedly.
 
 ## Civ IV translation layer
