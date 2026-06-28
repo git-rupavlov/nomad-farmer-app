@@ -26,8 +26,8 @@ export const initialFarms: Farm[] = [
       { id: "plant-3", speciesId: "butternut-squash", quantity: 1, stage: "seedling", health: 65, daysOld: 12, tileId: "balcony-3", notes: "butternut / Matilda uncertain cultivar" }
     ],
     buildings: [
-      { id: "b1", name: "Lidl Greenhouse", type: "greenhouse", effects: ["+1 Health", "Seedlings protected", "+1 Maintenance"] },
-      { id: "b2", name: "Improvised Trellis", type: "support", effects: ["+2 Labor yield from climbing crops"] }
+      { id: "building-1", buildingId: "small-plastic-greenhouse", quantity: 1, condition: 86, status: "active", tileId: "balcony-3", origin: "Lidl", notes: "vertical greenhouse used for seedlings" },
+      { id: "building-2", buildingId: "trellis-network", quantity: 1, condition: 74, status: "active", tileId: "balcony-1", notes: "improvised support for tomatoes and beans" }
     ],
     productionQueue: [
       { id: "task-1", name: "Build 60 cm Tomato Arches", description: "Low arches for cherry tomatoes and squash chaos containment.", progress: 1, requiredLabor: 5, reward: "Adds Trellis Network building", completed: false },
@@ -57,7 +57,8 @@ export const initialFarms: Farm[] = [
       { id: "plant-5", speciesId: "butternut-squash", quantity: 1, stage: "seed", health: 50, daysOld: 2, tileId: "field-2", notes: "forward scout planting" }
     ],
     buildings: [
-      { id: "b3", name: "Buried Kitchen Waste Heat Pit", type: "compost", effects: ["+1 Soil", "Unreliable heat", "Human optimism detected"] }
+      { id: "building-3", buildingId: "compost-heat-pit", quantity: 1, condition: 61, status: "active", tileId: "field-2", notes: "buried kitchen waste and weeds for slow soil improvement" },
+      { id: "building-4", buildingId: "water-cache", quantity: 1, condition: 90, status: "planned", notes: "field reserve planned near access route" }
     ],
     productionQueue: [
       { id: "task-3", name: "Install Water Cache", description: "Hide emergency water near the field zone.", progress: 2, requiredLabor: 6, reward: "+25 Stored Water", completed: false }
