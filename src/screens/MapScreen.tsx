@@ -31,7 +31,7 @@ export function MapScreen() {
           >
             <span className="city-dot" />
             <span className="farm-name">{farm.name}</span>
-            <span className="farm-yields">🥖 {farm.yields.water} ⚒ {farm.yields.labor} 🪙 {farm.yields.budget}</span>
+            <span className="farm-yields">🍅 {farm.yields.food} 🔧 {farm.yields.maintenance} 📦 {farm.yields.goods} 🪙 {farm.yields.budget} 🔬 {farm.yields.science} 🌻 {farm.yields.culture}</span>
           </button>
         ))}
       </main>
