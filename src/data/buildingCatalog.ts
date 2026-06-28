@@ -1,19 +1,24 @@
 import type { Yields } from "../domain/types";
+import { cityTaxonomy } from "./taxonomy";
 
 export interface BuildingCatalogItem {
   id: string;
+  taxonomy_id: string;
   common_name: string;
-  category: "greenhouse" | "irrigation" | "storage" | "compost" | "support" | "sensor";
+  category: "greenhouse" | "irrigation" | "storage" | "compost" | "support" | "sensor" | "monitoring";
   description: string;
   baseEffects: string[];
   yieldModifiers: Yields;
   maintenance: number;
 }
 
+const taxonomyBuildings = cityTaxonomy.buildings;
+
 export const buildingCatalog: BuildingCatalogItem[] = [
   {
     id: "small-plastic-greenhouse",
-    common_name: "small plastic greenhouse",
+    taxonomy_id: taxonomyBuildings.greenhouse.id,
+    common_name: taxonomyBuildings.greenhouse.common_name,
     category: "greenhouse",
     description: "Light protected growing structure for seedlings and season extension.",
     baseEffects: ["Seedlings protected", "+1 Health", "+1 Maintenance"],
@@ -22,7 +27,8 @@ export const buildingCatalog: BuildingCatalogItem[] = [
   },
   {
     id: "trellis-network",
-    common_name: "trellis network",
+    taxonomy_id: taxonomyBuildings.vine_arc.id,
+    common_name: taxonomyBuildings.vine_arc.common_name,
     category: "support",
     description: "Reusable vertical support structure for tomatoes, beans, squash and other climbing crops.",
     baseEffects: ["Improves climbing crop control", "+2 Labor value on supported tiles"],
@@ -31,7 +37,8 @@ export const buildingCatalog: BuildingCatalogItem[] = [
   },
   {
     id: "compost-heat-pit",
-    common_name: "compost heat pit",
+    taxonomy_id: taxonomyBuildings.compost_pit.id,
+    common_name: taxonomyBuildings.compost_pit.common_name,
     category: "compost",
     description: "Buried organic matter zone used for soil improvement and unreliable passive heat.",
     baseEffects: ["Improves soil slowly", "May buffer cold", "Requires observation"],
@@ -40,6 +47,7 @@ export const buildingCatalog: BuildingCatalogItem[] = [
   },
   {
     id: "water-cache",
+    taxonomy_id: "water_cache",
     common_name: "water cache",
     category: "storage",
     description: "Stored emergency water for remote or semi-wild locations.",
