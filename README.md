@@ -9,6 +9,7 @@ The app treats real gardening zones as map-level farms and each farm as a city-s
 - Civ-style world map with clickable farm markers
 - Farm / city screen transition
 - Citizen-style tile management
+- Canonical city taxonomy for buildings, improvements, plants and resources
 - Terrain archetypes inspired by Civ IV terrain data organization
 - Improvement archetypes inspired by Civ IV improvement rules
 - Simple unlock tree for farm technologies
@@ -65,6 +66,17 @@ Location inventory stores local facts only:
 
 This keeps each location comparable while allowing stats to differ based on actual local inventory, condition and management.
 
+## Canonical taxonomy
+
+`src/data/taxonomy.ts` is the common vocabulary layer. It defines:
+
+- buildings: `greenhouse`, `irrigation`, `vine_arc`, `compost_pit`, `tomato_tower`, `cctv_outpost`, etc.
+- improvements: `weeded`, `mulched`, `excavated`
+- plants grouped as fruit trees, berry bushes, herbs, vegetables, flowers and weeds
+- resource/stat keys: `maintenance`, `water`, `sunlight`, `shade`, `soil_moisture`, `biomass_green`, `biomass_brown`, `wood_ash`, `wood_material`, `pollinators`, `seeds`, `nitrogen`, `phosphorus`, `potassium`, `soil_airflow`, `security`, `biomass_capacity`
+
+Catalogs may expose app-specific IDs, but their canonical names and taxonomy IDs should come from this layer whenever possible. Yes, this is bureaucracy, but the useful kind, allegedly.
+
 ## Civ IV translation layer
 
 | Civ IV concept | Nomad Farmer concept |
@@ -86,8 +98,9 @@ This keeps each location comparable while allowing stats to differ based on actu
 
 Important files:
 
-- `src/data/species.ts`: canonical plant species catalog using `common_name` and `latin_name`.
-- `src/data/buildingCatalog.ts`: canonical building/infrastructure inventory catalog.
+- `src/data/taxonomy.ts`: canonical city vocabulary for buildings, improvements, plants and resources.
+- `src/data/species.ts`: canonical plant species catalog using `common_name` and `latin_name` from taxonomy where available.
+- `src/data/buildingCatalog.ts`: canonical building/infrastructure inventory catalog aligned with taxonomy.
 - `src/data/terrainArchetypes.ts`: app-native terrain model inspired by Civ IV terrain XML structure.
 - `src/data/improvementArchetypes.ts`: farm improvement model inspired by Civ IV improvement XML structure.
 - `src/data/unlockTree.ts`: simple technology/unlock tree.
