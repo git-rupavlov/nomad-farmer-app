@@ -6,7 +6,9 @@ The app treats real gardening zones as map-level farms and each farm as a city-s
 
 ## Current demo features
 
-- Civ-style world map with clickable farm markers
+- Interactive Civ-style Sofia region SVG world map
+- Clickable real-world-inspired locations and farms
+- Terrain, rivers, roads, forests, hills, water, fog and location labels as separate UI layers
 - Farm / city screen transition
 - Citizen-style tile management
 - Canonical city yield model: food, maintenance, goods, budget, science and culture
@@ -44,6 +46,16 @@ npm run build
 - Click tiles to toggle whether they are worked.
 - Click Apply Work on tasks to progress production.
 - Click End Turn to update plant age, health, stored water, fertilizer and yields.
+
+## Sofia world map
+
+The world map is not a static PNG. It is rendered from data:
+
+- `src/data/sofiaRegionMap.ts`: map tiles, rivers, roads and locations
+- `src/screens/SofiaWorldMap.tsx`: interactive SVG renderer
+- `src/styles/civ4-theme.css`: terrain, river, road, fog and marker styling
+
+The layout is a Civ-style abstraction inspired by Sofia-area topology, not a GIS basemap. Vitosha is represented toward the south/southwest, the Iskar/Pancharevo water system toward the east/southeast, Lozen Mountain toward the southeast, and Sofia/Vurtopo locations near the central urban zone. In other words: useful game geography, not a cadastral document, because this is a garden strategy app and not municipal paperwork cosplay.
 
 ## Canonical city yields
 
@@ -123,6 +135,8 @@ Catalogs may expose app-specific IDs, but their canonical names and taxonomy IDs
 
 Important files:
 
+- `src/data/sofiaRegionMap.ts`: Sofia region world map data.
+- `src/screens/SofiaWorldMap.tsx`: interactive SVG world map renderer.
 - `src/data/cityYields.ts`: canonical yield model and UI definitions.
 - `src/data/taxonomy.ts`: canonical city vocabulary for buildings, improvements, plants and resources.
 - `src/data/species.ts`: canonical plant species catalog using `common_name` and `latin_name` from taxonomy where available.
