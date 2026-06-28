@@ -19,13 +19,8 @@ body {
   font-family: Georgia, "Times New Roman", serif;
 }
 
-button {
-  font: inherit;
-}
-
-button:not(:disabled) {
-  cursor: pointer;
-}
+button { font: inherit; }
+button:not(:disabled) { cursor: pointer; }
 
 .panel {
   background: linear-gradient(180deg, var(--panel-light), var(--panel));
@@ -51,9 +46,7 @@ button:not(:disabled) {
   z-index: 3;
 }
 
-h1, h2, p {
-  margin: 0;
-}
+h1, h2, p { margin: 0; }
 
 h1 {
   font-size: 2rem;
@@ -70,9 +63,7 @@ h2 {
 .top-bar p,
 .city-header p,
 .small,
-small {
-  color: var(--muted);
-}
+small { color: var(--muted); }
 
 .turn-box,
 .turn-actions {
@@ -89,13 +80,8 @@ button {
   border-radius: 6px;
 }
 
-button:hover:not(:disabled) {
-  filter: brightness(1.18);
-}
-
-button:disabled {
-  opacity: 0.55;
-}
+button:hover:not(:disabled) { filter: brightness(1.18); }
+button:disabled { opacity: 0.55; }
 
 .world-map {
   position: absolute;
@@ -190,18 +176,13 @@ button:disabled {
   border: 1px solid rgba(196,154,77,0.55);
 }
 
-.yield-row strong {
-  font-size: 1.35rem;
-}
-
+.yield-row strong { font-size: 1.35rem; }
 .yield-row em {
   color: var(--muted);
   font-style: normal;
 }
 
-.meter {
-  margin-bottom: 0.55rem;
-}
+.meter { margin-bottom: 0.55rem; }
 
 .meter-label {
   display: flex;
@@ -224,12 +205,12 @@ button:disabled {
 
 .tile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 0.65rem;
 }
 
 .tile-card {
-  min-height: 118px;
+  min-height: 210px;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -242,8 +223,42 @@ button:disabled {
   filter: grayscale(0.5);
 }
 
-.tile-card.worked {
-  outline: 2px solid #f0d47a;
+.tile-card.worked { outline: 2px solid #f0d47a; }
+
+.tile-subtitle {
+  color: #ffe4a3;
+  font-weight: 700;
+}
+
+.tile-description {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.unlock-list {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.unlock-node {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(196,154,77,0.45);
+}
+
+.unlock-node span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.unlock-node.unlocked { border-color: var(--good); }
+.unlock-node.locked {
+  opacity: 0.58;
+  border-color: rgba(181, 93, 74, 0.65);
 }
 
 .plant-list {
@@ -277,9 +292,7 @@ button:disabled {
   margin: 0.35rem 0;
 }
 
-.task-card.completed {
-  border-color: var(--good);
-}
+.task-card.completed { border-color: var(--good); }
 
 .building-card span {
   display: block;
