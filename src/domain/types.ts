@@ -27,11 +27,13 @@ export interface FarmTile {
 export interface PlantInstance {
   id: string;
   speciesId: string;
-  name: string;
+  quantity: number;
   stage: "seed" | "seedling" | "vegetative" | "flowering" | "fruiting" | "harvest";
   health: number;
   daysOld: number;
   tileId: string;
+  origin?: string;
+  notes?: string;
 }
 
 export interface FarmBuilding {
