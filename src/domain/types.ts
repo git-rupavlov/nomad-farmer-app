@@ -36,11 +36,15 @@ export interface PlantInstance {
   notes?: string;
 }
 
-export interface FarmBuilding {
+export interface BuildingInventoryItem {
   id: string;
-  name: string;
-  type: "greenhouse" | "irrigation" | "storage" | "compost" | "support" | "sensor";
-  effects: string[];
+  buildingId: string;
+  quantity: number;
+  condition: number;
+  status: "planned" | "active" | "maintenance" | "retired";
+  tileId?: string;
+  origin?: string;
+  notes?: string;
 }
 
 export interface FarmTask {
@@ -68,6 +72,6 @@ export interface Farm {
   yields: Yields;
   tiles: FarmTile[];
   plants: PlantInstance[];
-  buildings: FarmBuilding[];
+  buildings: BuildingInventoryItem[];
   productionQueue: FarmTask[];
 }
