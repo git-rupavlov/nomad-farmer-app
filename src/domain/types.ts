@@ -5,6 +5,7 @@ export type Yields = CityYields;
 
 export type TerrainKind = "balcony" | "container" | "greenhouse" | "field" | "wild_patch" | "raised_bed";
 export type ImprovementKind = "trellis" | "mulch" | "drip_irrigation" | "compost_layer" | "shade_net" | "cold_frame";
+export type PlantStage = "seed" | "seedling" | "vegetative" | "flowering" | "fruiting" | "harvest";
 
 export interface FarmTile {
   id: string;
@@ -21,15 +22,24 @@ export interface FarmTile {
   pestPressure: number;
 }
 
-export interface PlantInstance {
+export interface PlantInventoryItem {
   id: string;
   speciesId: string;
   quantity: number;
-  stage: "seed" | "seedling" | "vegetative" | "flowering" | "fruiting" | "harvest";
+  stage: PlantStage;
   health: number;
   daysOld: number;
   tileId: string;
-  origin?: string;
+  cultivar?: string;
+  source?: string;
+  container?: string;
+  status: "planned" | "active" | "stressed" | "lost" | "harvested";
+  observed: {
+    flowering?: boolean;
+    fruiting?: boolean;
+    pests?: boolean;
+    disease?: boolean;
+  };
   notes?: string;
 }
 
@@ -68,7 +78,7 @@ export interface Farm {
   budgetSpent: number;
   yields: Yields;
   tiles: FarmTile[];
-  plants: PlantInstance[];
+  plantInventory: PlantInventoryItem[];
   buildings: BuildingInventoryItem[];
   productionQueue: FarmTask[];
 }
