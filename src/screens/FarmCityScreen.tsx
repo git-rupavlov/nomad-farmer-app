@@ -1,10 +1,11 @@
-import type { FarmTile, Yields } from "../domain/types";
+import type { FarmTile, PlantInventoryItem, Yields } from "../domain/types";
 import { cityYieldDefinitions } from "../data/cityYields";
 import { getBuildingCatalogItem } from "../data/buildingCatalog";
 import { getImprovementArchetype } from "../data/improvementArchetypes";
 import { formatSpeciesName } from "../data/species";
 import { getTerrainArchetype } from "../data/terrainArchetypes";
 import { unlockTree } from "../data/unlockTree";
+import { summarizePlantInventory } from "../domain/inventory";
 import { useGameStore } from "../store/useGameStore";
 
 export function FarmCityScreen() {
@@ -15,6 +16,8 @@ export function FarmCityScreen() {
   const nextTurn = useGameStore((state) => state.nextTurn);
 
   if (!farm) return null;
+
+  const plantSummary = summarizePlantInventory(farm.plantInventory);
 
   return (
     <section className="city-screen">
@@ -33,6 +36,10 @@ export function FarmCityScreen() {
         <aside className="city-left panel">
           <h2>City Yields</h2>
           <YieldGrid yields={farm.yields} />
+
+          <h2>Plant Ledger</h2>
+          <p className="small">Total: {plantSummary.totalPlants} | Active: {plantSummary.activePlants} | Species: {plantSummary.speciesCount}</p>
+          <p className="small">Flowering: {plantSummary.floweringPlants} | Fruiting: {plantSummary.fruitingPlants} | Stressed: {plantSummary.stressedPlants}</p>
 
           <h2>Vitals</h2>
           <Meter label="Stored Water" value={farm.storedWater} />
@@ -60,17 +67,17 @@ export function FarmCityScreen() {
             ))}
           </div>
 
-          <h2>Plant Inventory</h2>
-          <div className="plant-list">
-            {farm.plants.map((plant) => (
-              <article key={plant.id} className="plant-card">
-                <div>
-                  <strong>{plant.quantity} × {formatSpeciesName(plant.speciesId)}</strong>
-                  {plant.notes ? <p className="tile-description">{plant.notes}</p> : null}
-                </div>
-                <span>{plant.stage} | {plant.daysOld} days | health {plant.health}</span>
-              </article>
-            ))}
+          <h2>Exact Plant Inventory</h2>
+          <div className="plant-inventory-table">
+            <div className="plant-inventory-head">
+              <span>Qty</span>
+              <span>Plant</span>
+              <span>Stage</span>
+              <span>Health</span>
+              <span>Tile</span>
+              <span>Status</span>
+            </div>
+            {farm.plantInventory.map((plant) => <PlantInventoryRow key={plant.id} plant={plant} />)}
           </div>
         </main>
 
@@ -104,6 +111,23 @@ export function FarmCityScreen() {
         </aside>
       </div>
     </section>
+  );
+}
+
+function PlantInventoryRow({ plant }: { plant: PlantInventoryItem }) {
+  return (
+    <article className={`plant-inventory-row status-${plant.status}`}>
+      <span>{plant.quantity}</span>
+      <span>
+        <strong>{formatSpeciesName(plant.speciesId)}</strong>
+        <small>{plant.cultivar ? `Cultivar: ${plant.cultivar}` : "Cultivar: unknown"}</small>
+        {plant.notes ? <small>{plant.notes}</small> : null}
+      </span>
+      <span>{plant.stage}</span>
+      <span>{plant.health}%</span>
+      <span>{plant.tileId}<small>{plant.container}</small></span>
+      <span>{plant.status}<small>{formatObservedFlags(plant)}</small></span>
+    </article>
   );
 }
 
@@ -165,4 +189,14 @@ function TileCard({ tile, onClick }: { tile: FarmTile; onClick: () => void }) {
 
 function formatYieldSummary(yields: Yields) {
   return cityYieldDefinitions.map((definition) => `${definition.icon} ${yields[definition.key]}`).join(" ");
+}
+
+function formatObservedFlags(plant: PlantInventoryItem) {
+  const flags = [
+    plant.observed.flowering ? "flowering" : undefined,
+    plant.observed.fruiting ? "fruiting" : undefined,
+    plant.observed.pests ? "pests" : undefined,
+    plant.observed.disease ? "disease" : undefined
+  ].filter(Boolean);
+  return flags.length ? flags.join(", ") : "no flags";
 }
