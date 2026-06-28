@@ -11,6 +11,7 @@ The app treats real gardening zones as map-level farms and each farm as a city-s
 - Terrain, rivers, roads, forests, hills, water, fog and location labels as separate UI layers
 - Farm / city screen transition
 - Citizen-style tile management
+- Exact plant-based city inventory ledger
 - Canonical city yield model: food, maintenance, goods, budget, science and culture
 - Canonical city taxonomy for buildings, improvements, plants and resources
 - Terrain archetypes inspired by Civ IV terrain data organization
@@ -56,6 +57,25 @@ The world map is not a static PNG. It is rendered from data:
 - `src/styles/civ4-theme.css`: terrain, river, road, fog and marker styling
 
 The layout is a Civ-style abstraction inspired by Sofia-area topology, not a GIS basemap. Vitosha is represented toward the south/southwest, the Iskar/Pancharevo water system toward the east/southeast, Lozen Mountain toward the southeast, and Sofia/Vurtopo locations near the central urban zone. In other words: useful game geography, not a cadastral document, because this is a garden strategy app and not municipal paperwork cosplay.
+
+## Exact plant inventory model
+
+Each city/farm owns `plantInventory`, not vague local plant names. Every inventory row stores exact local facts:
+
+- `speciesId`
+- `quantity`
+- `stage`
+- `health`
+- `daysOld`
+- `tileId`
+- `cultivar`
+- `source`
+- `container`
+- `status`
+- observed flags for flowering, fruiting, pests and disease
+- notes
+
+The city screen renders this as a plant ledger. Turn simulation also uses this ledger for water demand, fertilizer demand, stress, growth stage and status changes. That way the city is plant-based instead of vibes-based, which is apparently a revolutionary idea in software.
 
 ## Canonical city yields
 
@@ -140,13 +160,14 @@ Important files:
 - `src/data/cityYields.ts`: canonical yield model and UI definitions.
 - `src/data/taxonomy.ts`: canonical city vocabulary for buildings, improvements, plants and resources.
 - `src/data/species.ts`: canonical plant species catalog using `common_name` and `latin_name` from taxonomy where available.
+- `src/domain/inventory.ts`: exact plant inventory summary and demand helpers.
 - `src/data/buildingCatalog.ts`: canonical building/infrastructure inventory catalog aligned with taxonomy.
 - `src/data/terrainArchetypes.ts`: app-native terrain model inspired by Civ IV terrain XML structure.
 - `src/data/improvementArchetypes.ts`: farm improvement model inspired by Civ IV improvement XML structure.
 - `src/data/unlockTree.ts`: simple technology/unlock tree.
 - `src/data/farms.ts`: playable farm seed data mapped to catalog and archetype IDs.
-- `src/domain/types.ts`: shared domain model for farms, tiles, plants, buildings and tasks.
-- `src/screens/FarmCityScreen.tsx`: city screen with Civ-like tile details.
+- `src/domain/types.ts`: shared domain model for farms, tiles, plant inventory, buildings and tasks.
+- `src/screens/FarmCityScreen.tsx`: city screen with Civ-like tile details and exact plant ledger.
 
 No proprietary Civ IV assets are committed. The project uses Civ IV as structural and UX inspiration only, because intellectual property lawsuits are not a fun hidden tech path.
 
