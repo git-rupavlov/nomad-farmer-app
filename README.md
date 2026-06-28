@@ -12,9 +12,11 @@ The app treats real gardening zones as map-level farms and each farm as a city-s
 - Terrain archetypes inspired by Civ IV terrain data organization
 - Improvement archetypes inspired by Civ IV improvement rules
 - Simple unlock tree for farm technologies
+- Normalized plant inventory using `common_name (latin_name)` display names
+- Normalized building inventory using shared infrastructure catalog entries
 - Water, labor and budget yields
 - Plant health and growth stage tracking
-- Buildings panel
+- Buildings inventory panel
 - Production queue with labor progress
 - End Turn simulation
 - Advisor event log
@@ -42,6 +44,27 @@ npm run build
 - Click Apply Labor on tasks to progress production.
 - Click End Turn to update plant age, health, stored water, fertilizer and yields.
 
+## Naming and inventory model
+
+Plants and buildings use shared catalog definitions. Individual locations do not invent their own names for the same thing.
+
+Plant display format:
+
+```text
+garden tomato (Solanum lycopersicum L.)
+```
+
+Location inventory stores local facts only:
+
+- `speciesId` or `buildingId`
+- `quantity`
+- stage/status
+- health/condition
+- tile assignment
+- origin and notes
+
+This keeps each location comparable while allowing stats to differ based on actual local inventory, condition and management.
+
 ## Civ IV translation layer
 
 | Civ IV concept | Nomad Farmer concept |
@@ -63,10 +86,12 @@ npm run build
 
 Important files:
 
+- `src/data/species.ts`: canonical plant species catalog using `common_name` and `latin_name`.
+- `src/data/buildingCatalog.ts`: canonical building/infrastructure inventory catalog.
 - `src/data/terrainArchetypes.ts`: app-native terrain model inspired by Civ IV terrain XML structure.
 - `src/data/improvementArchetypes.ts`: farm improvement model inspired by Civ IV improvement XML structure.
 - `src/data/unlockTree.ts`: simple technology/unlock tree.
-- `src/data/farms.ts`: playable farm seed data mapped to archetype IDs.
+- `src/data/farms.ts`: playable farm seed data mapped to catalog and archetype IDs.
 - `src/domain/types.ts`: shared domain model for farms, tiles, plants, buildings and tasks.
 - `src/screens/FarmCityScreen.tsx`: city screen with Civ-like tile details.
 
