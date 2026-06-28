@@ -1,3 +1,4 @@
+import { SofiaWorldMap } from "./SofiaWorldMap";
 import { useGameStore } from "../store/useGameStore";
 
 export function MapScreen() {
@@ -12,7 +13,7 @@ export function MapScreen() {
       <header className="top-bar panel">
         <div>
           <h1>Nomad Farmer</h1>
-          <p>Civilization IV-inspired plant management demo</p>
+          <p>Sofia Region — Civilization IV-inspired world map</p>
         </div>
         <div className="turn-box">
           <strong>Turn {turn}</strong>
@@ -20,20 +21,8 @@ export function MapScreen() {
         </div>
       </header>
 
-      <main className="world-map">
-        <div className="map-texture" />
-        {farms.map((farm) => (
-          <button
-            key={farm.id}
-            className="farm-marker"
-            style={{ left: `${farm.mapX}%`, top: `${farm.mapY}%` }}
-            onClick={() => selectFarm(farm.id)}
-          >
-            <span className="city-dot" />
-            <span className="farm-name">{farm.name}</span>
-            <span className="farm-yields">🍅 {farm.yields.food} 🔧 {farm.yields.maintenance} 📦 {farm.yields.goods} 🪙 {farm.yields.budget} 🔬 {farm.yields.science} 🌻 {farm.yields.culture}</span>
-          </button>
-        ))}
+      <main className="world-map interactive-world-map">
+        <SofiaWorldMap farms={farms} onSelectFarm={selectFarm} />
       </main>
 
       <aside className="event-log panel">
