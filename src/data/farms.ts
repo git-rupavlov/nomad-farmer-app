@@ -20,10 +20,10 @@ export const initialFarms: Farm[] = [
       { id: "balcony-3", name: "Seedling Tray", terrain: "greenhouse", terrainArchetypeId: "terrain-greenhouse", improvement: "cold_frame", improvementArchetypeId: "improvement-cold-frame", workedByCitizen: true, yields: { food: 1, maintenance: 1, goods: 0, budget: 0, science: 2, culture: 0 }, sun: 6, soil: 6, waterRetention: 5, pestPressure: 1 },
       { id: "balcony-4", name: "Herb Corner", terrain: "container", terrainArchetypeId: "terrain-container", improvement: "mulch", improvementArchetypeId: "improvement-mulch", workedByCitizen: false, yields: { food: 1, maintenance: 0.5, goods: 0, budget: 1, science: 0, culture: 1 }, sun: 5, soil: 6, waterRetention: 6, pestPressure: 2 }
     ],
-    plants: [
-      { id: "plant-1", speciesId: "garden-tomato", quantity: 12, stage: "vegetative", health: 72, daysOld: 34, tileId: "balcony-1", origin: "Lidl seedlings", notes: "cherry-type inventory, normalized under garden tomato species" },
-      { id: "plant-2", speciesId: "climbing-bean", quantity: 2, stage: "flowering", health: 81, daysOld: 41, tileId: "balcony-2", notes: "white flowers observed" },
-      { id: "plant-3", speciesId: "butternut-squash", quantity: 1, stage: "seedling", health: 65, daysOld: 12, tileId: "balcony-3", notes: "butternut / Matilda uncertain cultivar" }
+    plantInventory: [
+      { id: "plant-1", speciesId: "garden-tomato", quantity: 12, stage: "vegetative", health: 72, daysOld: 34, tileId: "balcony-1", cultivar: "cherry type / Lidl seedling batch", source: "Lidl seedlings", container: "shared balcony tomato container", status: "active", observed: { flowering: false, fruiting: false, pests: false, disease: false }, notes: "Exact batch inventory: 12 living garden tomato plants." },
+      { id: "plant-2", speciesId: "climbing-bean", quantity: 2, stage: "flowering", health: 81, daysOld: 41, tileId: "balcony-2", cultivar: "unknown white-flowering bean", container: "balcony rail support", status: "active", observed: { flowering: true, fruiting: false, pests: false, disease: false }, notes: "Two climbing bean plants observed with white flowers." },
+      { id: "plant-3", speciesId: "butternut-squash", quantity: 1, stage: "seedling", health: 65, daysOld: 12, tileId: "balcony-3", cultivar: "butternut / Matilda uncertain", container: "seedling tray", status: "active", observed: { flowering: false, fruiting: false, pests: false, disease: false }, notes: "One squash seedling, cultivar unresolved." }
     ],
     buildings: [
       { id: "building-1", buildingId: "small-plastic-greenhouse", quantity: 1, condition: 86, status: "active", tileId: "balcony-3", origin: "Lidl", notes: "vertical greenhouse used for seedlings" },
@@ -52,9 +52,9 @@ export const initialFarms: Farm[] = [
       { id: "field-2", name: "Squash Test", terrain: "field", terrainArchetypeId: "terrain-field", improvement: "compost_layer", improvementArchetypeId: "improvement-compost-layer", workedByCitizen: true, yields: { food: 2, maintenance: 2, goods: 1, budget: 0, science: 1, culture: 1 }, sun: 8, soil: 6, waterRetention: 6, pestPressure: 4 },
       { id: "field-3", name: "Weed Observatory", terrain: "wild_patch", terrainArchetypeId: "terrain-wild-patch", workedByCitizen: false, yields: { food: 0, maintenance: 2, goods: 1, budget: 1, science: 2, culture: 3 }, sun: 7, soil: 4, waterRetention: 3, pestPressure: 6 }
     ],
-    plants: [
-      { id: "plant-4", speciesId: "amaranth", quantity: 24, stage: "seedling", health: 58, daysOld: 8, tileId: "field-1", notes: "Red Garnet seed batch" },
-      { id: "plant-5", speciesId: "butternut-squash", quantity: 1, stage: "seed", health: 50, daysOld: 2, tileId: "field-2", notes: "forward scout planting" }
+    plantInventory: [
+      { id: "plant-4", speciesId: "amaranth", quantity: 24, stage: "seedling", health: 58, daysOld: 8, tileId: "field-1", cultivar: "Red Garnet", source: "seed batch", container: "wild patch direct sowing", status: "active", observed: { flowering: false, fruiting: false, pests: false, disease: false }, notes: "Twenty-four observed amaranth seedlings from Red Garnet batch." },
+      { id: "plant-5", speciesId: "butternut-squash", quantity: 1, stage: "seed", health: 50, daysOld: 2, tileId: "field-2", cultivar: "butternut / Matilda uncertain", container: "field direct sowing", status: "planned", observed: { flowering: false, fruiting: false, pests: false, disease: false }, notes: "Forward scout planting." }
     ],
     buildings: [
       { id: "building-3", buildingId: "compost-heat-pit", quantity: 1, condition: 61, status: "active", tileId: "field-2", notes: "buried kitchen waste and weeds for slow soil improvement" },
