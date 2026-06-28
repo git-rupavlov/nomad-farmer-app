@@ -94,6 +94,182 @@ button:disabled { opacity: 0.55; }
     linear-gradient(135deg, #22351f, #1b3047 55%, #2b2417);
 }
 
+.interactive-world-map {
+  background: #101a24;
+}
+
+.sofia-map-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sofia-world-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.terrain-tile {
+  stroke: rgba(230, 224, 190, 0.18);
+  stroke-width: 1.2;
+  transition: filter 120ms ease, opacity 120ms ease;
+}
+
+.terrain-tile:hover {
+  filter: brightness(1.15);
+}
+
+.terrain-grassland { fill: url(#terrain-grassland); }
+.terrain-plains { fill: url(#terrain-plains); }
+.terrain-forest { fill: url(#terrain-forest); }
+.terrain-hill { fill: url(#terrain-hill); }
+.terrain-mountain { fill: url(#terrain-mountain); }
+.terrain-water { fill: url(#terrain-water); }
+.terrain-urban { fill: url(#terrain-urban); }
+.terrain-fog { fill: #111; }
+
+.river-shadow {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.river-main {
+  fill: none;
+  stroke: #3f8db6;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px rgba(79, 173, 220, 0.45));
+}
+
+.road-path {
+  fill: none;
+  stroke: rgba(211, 177, 102, 0.76);
+  stroke-width: 4;
+  stroke-dasharray: 11 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tree-cluster,
+.orchard-feature,
+.rock-feature,
+.meadow-feature {
+  pointer-events: none;
+}
+
+.rock-feature {
+  fill: rgba(210, 210, 190, 0.65);
+  stroke: rgba(35, 35, 30, 0.75);
+  stroke-width: 2;
+}
+
+.meadow-feature {
+  fill: rgba(230, 210, 90, 0.32);
+  stroke: rgba(230, 210, 90, 0.5);
+}
+
+.orchard-feature circle {
+  fill: rgba(95, 136, 56, 0.8);
+  stroke: rgba(30, 50, 24, 0.9);
+}
+
+.location-ring {
+  fill: rgba(20, 36, 44, 0.96);
+  stroke: var(--bronze);
+  stroke-width: 2;
+}
+
+.marker-city .location-ring {
+  fill: rgba(95, 55, 18, 0.98);
+  stroke: #ffd57a;
+}
+
+.marker-natural .location-ring {
+  fill: rgba(35, 76, 45, 0.95);
+}
+
+.marker-village .location-ring {
+  fill: rgba(50, 83, 39, 0.95);
+}
+
+.unexplored {
+  opacity: 0.6;
+  filter: grayscale(0.65);
+}
+
+.location-symbol {
+  fill: #f6e1a5;
+  font-size: 22px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.location-label-bg {
+  fill: rgba(231, 216, 168, 0.92);
+  stroke: #3d2b11;
+  stroke-width: 1.5;
+}
+
+.location-label {
+  fill: #1d1609;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.location-subtitle {
+  fill: #45351a;
+  font-size: 10px;
+}
+
+.clickable-location {
+  cursor: pointer;
+}
+
+.clickable-location:hover .location-label-bg,
+.clickable-location:hover .location-ring {
+  filter: brightness(1.18);
+}
+
+.fog-tile {
+  fill: rgba(9, 11, 14, 0.63);
+  stroke: rgba(255,255,255,0.04);
+}
+
+.map-vignette {
+  fill: none;
+  stroke: rgba(0,0,0,0.7);
+  stroke-width: 100;
+  pointer-events: none;
+}
+
+.map-legend {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: min(340px, calc(100vw - 2rem));
+  padding: 0.85rem;
+  z-index: 2;
+}
+
+.map-legend p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.45rem;
+}
+
+.legend-yields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.25rem 0.7rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
 .map-texture {
   position: absolute;
   inset: 0;
@@ -281,7 +457,8 @@ button:disabled { opacity: 0.55; }
   gap: 0.75rem;
 }
 
-.task-card p {
+.task-card p,
+.building-card p {
   margin: 0.35rem 0;
   color: var(--muted);
   font-size: 0.92rem;
@@ -315,5 +492,8 @@ button:disabled { opacity: 0.55; }
   .city-center,
   .city-right {
     overflow: visible;
+  }
+  .map-legend {
+    display: none;
   }
 }
