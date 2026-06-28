@@ -1,5 +1,7 @@
 import type { FarmTile } from "../domain/types";
+import { getBuildingCatalogItem } from "../data/buildingCatalog";
 import { getImprovementArchetype } from "../data/improvementArchetypes";
+import { formatSpeciesName } from "../data/species";
 import { getTerrainArchetype } from "../data/terrainArchetypes";
 import { unlockTree } from "../data/unlockTree";
 import { useGameStore } from "../store/useGameStore";
@@ -59,11 +61,14 @@ export function FarmCityScreen() {
             ))}
           </div>
 
-          <h2>Plants</h2>
+          <h2>Plant Inventory</h2>
           <div className="plant-list">
             {farm.plants.map((plant) => (
               <article key={plant.id} className="plant-card">
-                <strong>{plant.name}</strong>
+                <div>
+                  <strong>{plant.quantity} × {formatSpeciesName(plant.speciesId)}</strong>
+                  {plant.notes ? <p className="tile-description">{plant.notes}</p> : null}
+                </div>
                 <span>{plant.stage} | {plant.daysOld} days | health {plant.health}</span>
               </article>
             ))}
@@ -84,14 +89,19 @@ export function FarmCityScreen() {
             </article>
           ))}
 
-          <h2>Buildings</h2>
-          {farm.buildings.map((building) => (
-            <article key={building.id} className="building-card">
-              <strong>{building.name}</strong>
-              <span>{building.type}</span>
-              <ul>{building.effects.map((effect) => <li key={effect}>{effect}</li>)}</ul>
-            </article>
-          ))}
+          <h2>Buildings Inventory</h2>
+          {farm.buildings.map((building) => {
+            const catalogItem = getBuildingCatalogItem(building.buildingId);
+            return (
+              <article key={building.id} className="building-card">
+                <strong>{building.quantity} × {catalogItem?.common_name ?? building.buildingId}</strong>
+                <span>{catalogItem?.category ?? "unknown"} | {building.status} | condition {building.condition}%</span>
+                {catalogItem ? <p>{catalogItem.description}</p> : null}
+                {building.notes ? <p>{building.notes}</p> : null}
+                {catalogItem ? <ul>{catalogItem.baseEffects.map((effect) => <li key={effect}>{effect}</li>)}</ul> : null}
+              </article>
+            );
+          })}
         </aside>
       </div>
     </section>
