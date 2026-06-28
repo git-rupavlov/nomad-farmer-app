@@ -6,11 +6,16 @@ export interface Yields {
   budget: number;
 }
 
+export type TerrainKind = "balcony" | "container" | "greenhouse" | "field" | "wild_patch" | "raised_bed";
+export type ImprovementKind = "trellis" | "mulch" | "drip_irrigation" | "compost_layer" | "shade_net" | "cold_frame";
+
 export interface FarmTile {
   id: string;
   name: string;
-  terrain: "balcony" | "container" | "greenhouse" | "field" | "wild_patch" | "raised_bed";
-  improvement?: "trellis" | "mulch" | "drip_irrigation" | "compost_layer" | "shade_net" | "cold_frame";
+  terrain: TerrainKind;
+  terrainArchetypeId: string;
+  improvement?: ImprovementKind;
+  improvementArchetypeId?: string;
   workedByCitizen: boolean;
   yields: Yields;
   sun: number;
