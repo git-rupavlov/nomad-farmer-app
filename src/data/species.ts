@@ -1,8 +1,11 @@
+import { cityTaxonomy, formatTaxonomyName } from "./taxonomy";
+
 export interface PlantSpecies {
   id: string;
+  taxonomy_id: string;
   common_name: string;
   latin_name: string;
-  category: "vegetable" | "herb" | "grain" | "legume" | "fruit";
+  category: "vegetable" | "herb" | "grain" | "legume" | "fruit" | "weed" | "flower" | "fruit_tree" | "berry_bush";
   civ: {
     health: number;
     happiness: number;
@@ -21,11 +24,14 @@ export interface PlantSpecies {
   };
 }
 
+const taxonomyPlants = cityTaxonomy.plants;
+
 export const species: PlantSpecies[] = [
   {
     id: "garden-tomato",
-    common_name: "garden tomato",
-    latin_name: "Solanum lycopersicum L.",
+    taxonomy_id: taxonomyPlants.vegetables.garden_tomato.id,
+    common_name: taxonomyPlants.vegetables.garden_tomato.common_name,
+    latin_name: taxonomyPlants.vegetables.garden_tomato.latin_name,
     category: "vegetable",
     civ: { health: 1, happiness: 2, maintenance: 2 },
     requirements: { water: 4, fertilizer: 4, sun: 7, labor: 3 },
@@ -33,17 +39,19 @@ export const species: PlantSpecies[] = [
   },
   {
     id: "climbing-bean",
-    common_name: "climbing bean",
-    latin_name: "Phaseolus vulgaris L.",
-    category: "legume",
+    taxonomy_id: taxonomyPlants.weeds.wild_bean.id,
+    common_name: taxonomyPlants.weeds.wild_bean.common_name,
+    latin_name: taxonomyPlants.weeds.wild_bean.latin_name,
+    category: "weed",
     civ: { health: 1, happiness: 1, maintenance: 1 },
     requirements: { water: 3, fertilizer: 2, sun: 6, labor: 2 },
     yields: { water: -2, labor: 2, budget: 2 }
   },
   {
     id: "butternut-squash",
-    common_name: "butternut squash",
-    latin_name: "Cucurbita moschata Duchesne",
+    taxonomy_id: taxonomyPlants.vegetables.squash.id,
+    common_name: taxonomyPlants.vegetables.squash.common_name,
+    latin_name: taxonomyPlants.vegetables.squash.latin_name,
     category: "vegetable",
     civ: { health: 2, happiness: 2, maintenance: 3 },
     requirements: { water: 5, fertilizer: 5, sun: 8, labor: 4 },
@@ -51,6 +59,7 @@ export const species: PlantSpecies[] = [
   },
   {
     id: "amaranth",
+    taxonomy_id: "amaranth",
     common_name: "amaranth",
     latin_name: "Amaranthus spp.",
     category: "grain",
@@ -67,5 +76,5 @@ export function getSpecies(speciesId: string) {
 export function formatSpeciesName(speciesId: string) {
   const entry = getSpecies(speciesId);
   if (!entry) return speciesId;
-  return `${entry.common_name} (${entry.latin_name})`;
+  return formatTaxonomyName(entry);
 }
