@@ -1,10 +1,7 @@
-export type YieldKey = "water" | "labor" | "budget";
+import type { CityYields } from "../data/cityYields";
 
-export interface Yields {
-  water: number;
-  labor: number;
-  budget: number;
-}
+export type YieldKey = keyof CityYields;
+export type Yields = CityYields;
 
 export type TerrainKind = "balcony" | "container" | "greenhouse" | "field" | "wild_patch" | "raised_bed";
 export type ImprovementKind = "trellis" | "mulch" | "drip_irrigation" | "compost_layer" | "shade_net" | "cold_frame";
