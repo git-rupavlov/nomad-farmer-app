@@ -21,9 +21,9 @@ export const initialFarms: Farm[] = [
       { id: "balcony-4", name: "Herb Corner", terrain: "container", terrainArchetypeId: "terrain-container", improvement: "mulch", improvementArchetypeId: "improvement-mulch", workedByCitizen: false, yields: { water: 1, labor: 0, budget: 1 }, sun: 5, soil: 6, waterRetention: 6, pestPressure: 2 }
     ],
     plants: [
-      { id: "plant-1", speciesId: "cherry-tomato", name: "Lidl Cherry Tomato Army", stage: "vegetative", health: 72, daysOld: 34, tileId: "balcony-1" },
-      { id: "plant-2", speciesId: "bean", name: "White Flower Beans", stage: "flowering", health: 81, daysOld: 41, tileId: "balcony-2" },
-      { id: "plant-3", speciesId: "butternut", name: "Butternut / Matilda Mystery", stage: "seedling", health: 65, daysOld: 12, tileId: "balcony-3" }
+      { id: "plant-1", speciesId: "garden-tomato", quantity: 12, stage: "vegetative", health: 72, daysOld: 34, tileId: "balcony-1", origin: "Lidl seedlings", notes: "cherry-type inventory, normalized under garden tomato species" },
+      { id: "plant-2", speciesId: "climbing-bean", quantity: 2, stage: "flowering", health: 81, daysOld: 41, tileId: "balcony-2", notes: "white flowers observed" },
+      { id: "plant-3", speciesId: "butternut-squash", quantity: 1, stage: "seedling", health: 65, daysOld: 12, tileId: "balcony-3", notes: "butternut / Matilda uncertain cultivar" }
     ],
     buildings: [
       { id: "b1", name: "Lidl Greenhouse", type: "greenhouse", effects: ["+1 Health", "Seedlings protected", "+1 Maintenance"] },
@@ -53,8 +53,8 @@ export const initialFarms: Farm[] = [
       { id: "field-3", name: "Weed Observatory", terrain: "wild_patch", terrainArchetypeId: "terrain-wild-patch", workedByCitizen: false, yields: { water: 0, labor: 1, budget: 1 }, sun: 7, soil: 4, waterRetention: 3, pestPressure: 6 }
     ],
     plants: [
-      { id: "plant-4", speciesId: "amaranth", name: "Red Garnet Amaranth", stage: "seedling", health: 58, daysOld: 8, tileId: "field-1" },
-      { id: "plant-5", speciesId: "butternut", name: "Cigulka Forward Scout", stage: "seed", health: 50, daysOld: 2, tileId: "field-2" }
+      { id: "plant-4", speciesId: "amaranth", quantity: 24, stage: "seedling", health: 58, daysOld: 8, tileId: "field-1", notes: "Red Garnet seed batch" },
+      { id: "plant-5", speciesId: "butternut-squash", quantity: 1, stage: "seed", health: 50, daysOld: 2, tileId: "field-2", notes: "forward scout planting" }
     ],
     buildings: [
       { id: "b3", name: "Buried Kitchen Waste Heat Pit", type: "compost", effects: ["+1 Soil", "Unreliable heat", "Human optimism detected"] }
