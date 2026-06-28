@@ -13,12 +13,12 @@ export const initialFarms: Farm[] = [
     storedWater: 62,
     fertilizer: 38,
     budgetSpent: 147,
-    yields: { water: 7, labor: 4, budget: 2 },
+    yields: { food: 5, maintenance: 3, goods: 2, budget: 2, science: 1, culture: 1 },
     tiles: [
-      { id: "balcony-1", name: "Tomato Pot", terrain: "container", terrainArchetypeId: "terrain-container", improvement: "trellis", improvementArchetypeId: "improvement-trellis", workedByCitizen: true, yields: { water: 2, labor: 1, budget: 1 }, sun: 8, soil: 5, waterRetention: 4, pestPressure: 3 },
-      { id: "balcony-2", name: "Bean Rail", terrain: "balcony", terrainArchetypeId: "terrain-balcony", improvement: "trellis", improvementArchetypeId: "improvement-trellis", workedByCitizen: true, yields: { water: 1, labor: 2, budget: 0 }, sun: 7, soil: 4, waterRetention: 3, pestPressure: 2 },
-      { id: "balcony-3", name: "Seedling Tray", terrain: "greenhouse", terrainArchetypeId: "terrain-greenhouse", improvement: "cold_frame", improvementArchetypeId: "improvement-cold-frame", workedByCitizen: true, yields: { water: 2, labor: 1, budget: 0 }, sun: 6, soil: 6, waterRetention: 5, pestPressure: 1 },
-      { id: "balcony-4", name: "Herb Corner", terrain: "container", terrainArchetypeId: "terrain-container", improvement: "mulch", improvementArchetypeId: "improvement-mulch", workedByCitizen: false, yields: { water: 1, labor: 0, budget: 1 }, sun: 5, soil: 6, waterRetention: 6, pestPressure: 2 }
+      { id: "balcony-1", name: "Tomato Pot", terrain: "container", terrainArchetypeId: "terrain-container", improvement: "trellis", improvementArchetypeId: "improvement-trellis", workedByCitizen: true, yields: { food: 2, maintenance: 1, goods: 1, budget: 1, science: 0, culture: 0 }, sun: 8, soil: 5, waterRetention: 4, pestPressure: 3 },
+      { id: "balcony-2", name: "Bean Rail", terrain: "balcony", terrainArchetypeId: "terrain-balcony", improvement: "trellis", improvementArchetypeId: "improvement-trellis", workedByCitizen: true, yields: { food: 1, maintenance: 1, goods: 1, budget: 0, science: 0, culture: 0.5 }, sun: 7, soil: 4, waterRetention: 3, pestPressure: 2 },
+      { id: "balcony-3", name: "Seedling Tray", terrain: "greenhouse", terrainArchetypeId: "terrain-greenhouse", improvement: "cold_frame", improvementArchetypeId: "improvement-cold-frame", workedByCitizen: true, yields: { food: 1, maintenance: 1, goods: 0, budget: 0, science: 2, culture: 0 }, sun: 6, soil: 6, waterRetention: 5, pestPressure: 1 },
+      { id: "balcony-4", name: "Herb Corner", terrain: "container", terrainArchetypeId: "terrain-container", improvement: "mulch", improvementArchetypeId: "improvement-mulch", workedByCitizen: false, yields: { food: 1, maintenance: 0.5, goods: 0, budget: 1, science: 0, culture: 1 }, sun: 5, soil: 6, waterRetention: 6, pestPressure: 2 }
     ],
     plants: [
       { id: "plant-1", speciesId: "garden-tomato", quantity: 12, stage: "vegetative", health: 72, daysOld: 34, tileId: "balcony-1", origin: "Lidl seedlings", notes: "cherry-type inventory, normalized under garden tomato species" },
@@ -46,11 +46,11 @@ export const initialFarms: Farm[] = [
     storedWater: 41,
     fertilizer: 22,
     budgetSpent: 38,
-    yields: { water: 4, labor: 6, budget: 1 },
+    yields: { food: 4, maintenance: 6, goods: 3, budget: 1, science: 3, culture: 5 },
     tiles: [
-      { id: "field-1", name: "Wild Patch", terrain: "wild_patch", terrainArchetypeId: "terrain-wild-patch", improvement: "mulch", improvementArchetypeId: "improvement-mulch", workedByCitizen: true, yields: { water: 1, labor: 2, budget: 0 }, sun: 9, soil: 5, waterRetention: 5, pestPressure: 5 },
-      { id: "field-2", name: "Squash Test", terrain: "field", terrainArchetypeId: "terrain-field", improvement: "compost_layer", improvementArchetypeId: "improvement-compost-layer", workedByCitizen: true, yields: { water: 2, labor: 2, budget: 0 }, sun: 8, soil: 6, waterRetention: 6, pestPressure: 4 },
-      { id: "field-3", name: "Weed Observatory", terrain: "wild_patch", terrainArchetypeId: "terrain-wild-patch", workedByCitizen: false, yields: { water: 0, labor: 1, budget: 1 }, sun: 7, soil: 4, waterRetention: 3, pestPressure: 6 }
+      { id: "field-1", name: "Wild Patch", terrain: "wild_patch", terrainArchetypeId: "terrain-wild-patch", improvement: "mulch", improvementArchetypeId: "improvement-mulch", workedByCitizen: true, yields: { food: 1, maintenance: 2, goods: 1, budget: 0, science: 2, culture: 3 }, sun: 9, soil: 5, waterRetention: 5, pestPressure: 5 },
+      { id: "field-2", name: "Squash Test", terrain: "field", terrainArchetypeId: "terrain-field", improvement: "compost_layer", improvementArchetypeId: "improvement-compost-layer", workedByCitizen: true, yields: { food: 2, maintenance: 2, goods: 1, budget: 0, science: 1, culture: 1 }, sun: 8, soil: 6, waterRetention: 6, pestPressure: 4 },
+      { id: "field-3", name: "Weed Observatory", terrain: "wild_patch", terrainArchetypeId: "terrain-wild-patch", workedByCitizen: false, yields: { food: 0, maintenance: 2, goods: 1, budget: 1, science: 2, culture: 3 }, sun: 7, soil: 4, waterRetention: 3, pestPressure: 6 }
     ],
     plants: [
       { id: "plant-4", speciesId: "amaranth", quantity: 24, stage: "seedling", health: 58, daysOld: 8, tileId: "field-1", notes: "Red Garnet seed batch" },
