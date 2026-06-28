@@ -94,33 +94,11 @@ button:disabled { opacity: 0.55; }
     linear-gradient(135deg, #22351f, #1b3047 55%, #2b2417);
 }
 
-.interactive-world-map {
-  background: #101a24;
-}
-
-.sofia-map-shell {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.sofia-world-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.terrain-tile {
-  stroke: rgba(230, 224, 190, 0.18);
-  stroke-width: 1.2;
-  transition: filter 120ms ease, opacity 120ms ease;
-}
-
-.terrain-tile:hover {
-  filter: brightness(1.15);
-}
-
+.interactive-world-map { background: #101a24; }
+.sofia-map-shell { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.sofia-world-svg { width: 100%; height: 100%; display: block; }
+.terrain-tile { stroke: rgba(230, 224, 190, 0.18); stroke-width: 1.2; transition: filter 120ms ease, opacity 120ms ease; }
+.terrain-tile:hover { filter: brightness(1.15); }
 .terrain-grassland { fill: url(#terrain-grassland); }
 .terrain-plains { fill: url(#terrain-plains); }
 .terrain-forest { fill: url(#terrain-forest); }
@@ -129,199 +107,36 @@ button:disabled { opacity: 0.55; }
 .terrain-water { fill: url(#terrain-water); }
 .terrain-urban { fill: url(#terrain-urban); }
 .terrain-fog { fill: #111; }
-
-.river-shadow {
-  fill: none;
-  stroke: rgba(0, 0, 0, 0.5);
-  stroke-width: 12;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.river-main {
-  fill: none;
-  stroke: #3f8db6;
-  stroke-width: 7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 5px rgba(79, 173, 220, 0.45));
-}
-
-.road-path {
-  fill: none;
-  stroke: rgba(211, 177, 102, 0.76);
-  stroke-width: 4;
-  stroke-dasharray: 11 7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.tree-cluster,
-.orchard-feature,
-.rock-feature,
-.meadow-feature {
-  pointer-events: none;
-}
-
-.rock-feature {
-  fill: rgba(210, 210, 190, 0.65);
-  stroke: rgba(35, 35, 30, 0.75);
-  stroke-width: 2;
-}
-
-.meadow-feature {
-  fill: rgba(230, 210, 90, 0.32);
-  stroke: rgba(230, 210, 90, 0.5);
-}
-
-.orchard-feature circle {
-  fill: rgba(95, 136, 56, 0.8);
-  stroke: rgba(30, 50, 24, 0.9);
-}
-
-.location-ring {
-  fill: rgba(20, 36, 44, 0.96);
-  stroke: var(--bronze);
-  stroke-width: 2;
-}
-
-.marker-city .location-ring {
-  fill: rgba(95, 55, 18, 0.98);
-  stroke: #ffd57a;
-}
-
-.marker-natural .location-ring {
-  fill: rgba(35, 76, 45, 0.95);
-}
-
-.marker-village .location-ring {
-  fill: rgba(50, 83, 39, 0.95);
-}
-
-.unexplored {
-  opacity: 0.6;
-  filter: grayscale(0.65);
-}
-
-.location-symbol {
-  fill: #f6e1a5;
-  font-size: 22px;
-  text-shadow: 1px 1px 0 #000;
-}
-
-.location-label-bg {
-  fill: rgba(231, 216, 168, 0.92);
-  stroke: #3d2b11;
-  stroke-width: 1.5;
-}
-
-.location-label {
-  fill: #1d1609;
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.location-subtitle {
-  fill: #45351a;
-  font-size: 10px;
-}
-
-.clickable-location {
-  cursor: pointer;
-}
-
-.clickable-location:hover .location-label-bg,
-.clickable-location:hover .location-ring {
-  filter: brightness(1.18);
-}
-
-.fog-tile {
-  fill: rgba(9, 11, 14, 0.63);
-  stroke: rgba(255,255,255,0.04);
-}
-
-.map-vignette {
-  fill: none;
-  stroke: rgba(0,0,0,0.7);
-  stroke-width: 100;
-  pointer-events: none;
-}
-
-.map-legend {
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  width: min(340px, calc(100vw - 2rem));
-  padding: 0.85rem;
-  z-index: 2;
-}
-
-.map-legend p {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-bottom: 0.45rem;
-}
-
-.legend-yields {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.25rem 0.7rem;
-  font-size: 0.85rem;
-  color: var(--text);
-}
-
-.map-texture {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  opacity: 0.45;
-}
-
-.farm-marker {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  min-width: 190px;
-  display: grid;
-  grid-template-columns: 24px 1fr;
-  gap: 0.2rem 0.45rem;
-  align-items: center;
-  background: rgba(11, 23, 37, 0.92);
-}
-
-.city-dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffe8a0, #9b5f1e 60%, #2a1608);
-  grid-row: span 2;
-}
-
-.farm-name {
-  font-weight: 700;
-  text-align: left;
-}
-
-.farm-yields {
-  color: var(--muted);
-  text-align: left;
-  font-size: 0.85rem;
-}
-
-.event-log {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 120px;
-  padding: 0.7rem 1rem;
-  overflow: auto;
-}
-
-.event-log p {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
+.river-shadow { fill: none; stroke: rgba(0, 0, 0, 0.5); stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; }
+.river-main { fill: none; stroke: #3f8db6; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 5px rgba(79, 173, 220, 0.45)); }
+.road-path { fill: none; stroke: rgba(211, 177, 102, 0.76); stroke-width: 4; stroke-dasharray: 11 7; stroke-linecap: round; stroke-linejoin: round; }
+.tree-cluster, .orchard-feature, .rock-feature, .meadow-feature { pointer-events: none; }
+.rock-feature { fill: rgba(210, 210, 190, 0.65); stroke: rgba(35, 35, 30, 0.75); stroke-width: 2; }
+.meadow-feature { fill: rgba(230, 210, 90, 0.32); stroke: rgba(230, 210, 90, 0.5); }
+.orchard-feature circle { fill: rgba(95, 136, 56, 0.8); stroke: rgba(30, 50, 24, 0.9); }
+.location-ring { fill: rgba(20, 36, 44, 0.96); stroke: var(--bronze); stroke-width: 2; }
+.marker-city .location-ring { fill: rgba(95, 55, 18, 0.98); stroke: #ffd57a; }
+.marker-natural .location-ring { fill: rgba(35, 76, 45, 0.95); }
+.marker-village .location-ring { fill: rgba(50, 83, 39, 0.95); }
+.unexplored { opacity: 0.6; filter: grayscale(0.65); }
+.location-symbol { fill: #f6e1a5; font-size: 22px; text-shadow: 1px 1px 0 #000; }
+.location-label-bg { fill: rgba(231, 216, 168, 0.92); stroke: #3d2b11; stroke-width: 1.5; }
+.location-label { fill: #1d1609; font-size: 15px; font-weight: 700; }
+.location-subtitle { fill: #45351a; font-size: 10px; }
+.clickable-location { cursor: pointer; }
+.clickable-location:hover .location-label-bg, .clickable-location:hover .location-ring { filter: brightness(1.18); }
+.fog-tile { fill: rgba(9, 11, 14, 0.63); stroke: rgba(255,255,255,0.04); }
+.map-vignette { fill: none; stroke: rgba(0,0,0,0.7); stroke-width: 100; pointer-events: none; }
+.map-legend { position: absolute; right: 1rem; bottom: 1rem; width: min(340px, calc(100vw - 2rem)); padding: 0.85rem; z-index: 2; }
+.map-legend p { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.45rem; }
+.legend-yields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.25rem 0.7rem; font-size: 0.85rem; color: var(--text); }
+.map-texture { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 64px 64px; opacity: 0.45; }
+.farm-marker { position: absolute; transform: translate(-50%, -50%); min-width: 190px; display: grid; grid-template-columns: 24px 1fr; gap: 0.2rem 0.45rem; align-items: center; background: rgba(11, 23, 37, 0.92); }
+.city-dot { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle, #ffe8a0, #9b5f1e 60%, #2a1608); grid-row: span 2; }
+.farm-name { font-weight: 700; text-align: left; }
+.farm-yields { color: var(--muted); text-align: left; font-size: 0.85rem; }
+.event-log { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; padding: 0.7rem 1rem; overflow: auto; }
+.event-log p { font-size: 0.9rem; color: var(--muted); }
 
 .city-layout {
   height: calc(100vh - 96px);
@@ -334,166 +149,76 @@ button:disabled { opacity: 0.55; }
     linear-gradient(135deg, #111b28, #1d2c25);
 }
 
-.city-left,
-.city-center,
-.city-right {
-  overflow: auto;
-  padding: 0.85rem;
-}
-
-.yield-row {
-  display: grid;
-  grid-template-columns: 34px 44px 1fr;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem;
-  margin-bottom: 0.45rem;
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(196,154,77,0.55);
-}
-
+.city-left, .city-center, .city-right { overflow: auto; padding: 0.85rem; }
+.yield-row { display: grid; grid-template-columns: 34px 44px 1fr; align-items: center; gap: 0.5rem; padding: 0.45rem; margin-bottom: 0.45rem; background: rgba(0,0,0,0.25); border: 1px solid rgba(196,154,77,0.55); }
 .yield-row strong { font-size: 1.35rem; }
-.yield-row em {
-  color: var(--muted);
-  font-style: normal;
-}
-
+.yield-row em { color: var(--muted); font-style: normal; }
 .meter { margin-bottom: 0.55rem; }
-
-.meter-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.86rem;
-  color: var(--muted);
-}
-
-.meter-track {
-  height: 12px;
-  padding: 2px;
-  border: 1px solid var(--bronze-dark);
-  background: rgba(0,0,0,0.35);
-}
-
-.meter-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #8fb3d9, #d6b55c);
-}
-
-.tile-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 0.65rem;
-}
-
-.tile-card {
-  min-height: 210px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  text-align: left;
-  background: linear-gradient(180deg, rgba(53, 86, 53, 0.95), rgba(30, 48, 32, 0.95));
-}
-
-.tile-card.idle {
-  opacity: 0.65;
-  filter: grayscale(0.5);
-}
-
+.meter-label { display: flex; justify-content: space-between; font-size: 0.86rem; color: var(--muted); }
+.meter-track { height: 12px; padding: 2px; border: 1px solid var(--bronze-dark); background: rgba(0,0,0,0.35); }
+.meter-fill { height: 100%; background: linear-gradient(90deg, #8fb3d9, #d6b55c); }
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.65rem; }
+.tile-card { min-height: 210px; display: flex; flex-direction: column; gap: 0.35rem; text-align: left; background: linear-gradient(180deg, rgba(53, 86, 53, 0.95), rgba(30, 48, 32, 0.95)); }
+.tile-card.idle { opacity: 0.65; filter: grayscale(0.5); }
 .tile-card.worked { outline: 2px solid #f0d47a; }
+.tile-subtitle { color: #ffe4a3; font-weight: 700; }
+.tile-description { color: var(--muted); font-size: 0.78rem; line-height: 1.25; }
+.unlock-list { display: grid; gap: 0.4rem; }
+.unlock-node { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.45rem; background: rgba(0,0,0,0.25); border: 1px solid rgba(196,154,77,0.45); }
+.unlock-node span { color: var(--muted); font-size: 0.82rem; }
+.unlock-node.unlocked { border-color: var(--good); }
+.unlock-node.locked { opacity: 0.58; border-color: rgba(181, 93, 74, 0.65); }
+.plant-list { display: grid; gap: 0.45rem; }
+.plant-card, .task-card, .building-card { margin-bottom: 0.6rem; padding: 0.65rem; background: rgba(0, 0, 0, 0.24); border: 1px solid rgba(196,154,77,0.55); }
+.plant-card { display: flex; justify-content: space-between; gap: 0.75rem; }
+.task-card p, .building-card p { margin: 0.35rem 0; color: var(--muted); font-size: 0.92rem; }
+.task-card button { width: 100%; margin: 0.35rem 0; }
+.task-card.completed { border-color: var(--good); }
+.building-card span { display: block; color: var(--muted); margin-top: 0.2rem; }
+.building-card ul { margin: 0.45rem 0 0; padding-left: 1.1rem; color: var(--muted); }
 
-.tile-subtitle {
+.plant-inventory-table {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 780px;
+}
+
+.plant-inventory-head,
+.plant-inventory-row {
+  display: grid;
+  grid-template-columns: 52px 2fr 105px 72px 1fr 105px;
+  gap: 0.55rem;
+  align-items: start;
+}
+
+.plant-inventory-head {
+  padding: 0.45rem 0.6rem;
   color: #ffe4a3;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(196,154,77,0.55);
   font-weight: 700;
 }
 
-.tile-description {
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.25;
-}
-
-.unlock-list {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.unlock-node {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.45rem;
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(196,154,77,0.45);
-}
-
-.unlock-node span {
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.unlock-node.unlocked { border-color: var(--good); }
-.unlock-node.locked {
-  opacity: 0.58;
-  border-color: rgba(181, 93, 74, 0.65);
-}
-
-.plant-list {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.plant-card,
-.task-card,
-.building-card {
-  margin-bottom: 0.6rem;
-  padding: 0.65rem;
+.plant-inventory-row {
+  padding: 0.55rem 0.6rem;
   background: rgba(0, 0, 0, 0.24);
-  border: 1px solid rgba(196,154,77,0.55);
+  border: 1px solid rgba(196,154,77,0.35);
 }
 
-.plant-card {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.task-card p,
-.building-card p {
-  margin: 0.35rem 0;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.task-card button {
-  width: 100%;
-  margin: 0.35rem 0;
-}
-
-.task-card.completed { border-color: var(--good); }
-
-.building-card span {
+.plant-inventory-row strong,
+.plant-inventory-row small {
   display: block;
-  color: var(--muted);
-  margin-top: 0.2rem;
 }
 
-.building-card ul {
-  margin: 0.45rem 0 0;
-  padding-left: 1.1rem;
-  color: var(--muted);
-}
+.plant-inventory-row.status-active { border-left: 4px solid var(--good); }
+.plant-inventory-row.status-stressed { border-left: 4px solid var(--danger); }
+.plant-inventory-row.status-planned { border-left: 4px solid #8fb3d9; }
+.plant-inventory-row.status-lost,
+.plant-inventory-row.status-harvested { opacity: 0.62; }
 
 @media (max-width: 1000px) {
-  .city-layout {
-    grid-template-columns: 1fr;
-    overflow: auto;
-  }
-  .city-left,
-  .city-center,
-  .city-right {
-    overflow: visible;
-  }
-  .map-legend {
-    display: none;
-  }
+  .city-layout { grid-template-columns: 1fr; overflow: auto; }
+  .city-left, .city-center, .city-right { overflow: visible; }
+  .map-legend { display: none; }
+  .plant-inventory-table { min-width: 680px; overflow-x: auto; }
 }
