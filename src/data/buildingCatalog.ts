@@ -21,8 +21,8 @@ export const buildingCatalog: BuildingCatalogItem[] = [
     common_name: taxonomyBuildings.greenhouse.common_name,
     category: "greenhouse",
     description: "Light protected growing structure for seedlings and season extension.",
-    baseEffects: ["Seedlings protected", "+1 Health", "+1 Maintenance"],
-    yieldModifiers: { water: 1, labor: 0, budget: 0 },
+    baseEffects: ["Seedlings protected", "+1 Food stability", "+1 Maintenance pressure"],
+    yieldModifiers: { food: 1, maintenance: 1, goods: 0, budget: 0, science: 1, culture: 0 },
     maintenance: 1
   },
   {
@@ -31,8 +31,8 @@ export const buildingCatalog: BuildingCatalogItem[] = [
     common_name: taxonomyBuildings.vine_arc.common_name,
     category: "support",
     description: "Reusable vertical support structure for tomatoes, beans, squash and other climbing crops.",
-    baseEffects: ["Improves climbing crop control", "+2 Labor value on supported tiles"],
-    yieldModifiers: { water: 0, labor: 2, budget: 0 },
+    baseEffects: ["Improves climbing crop control", "Reduces maintenance pressure on vine crops"],
+    yieldModifiers: { food: 1, maintenance: -1, goods: 1, budget: 0, science: 0, culture: 0 },
     maintenance: 0
   },
   {
@@ -42,7 +42,7 @@ export const buildingCatalog: BuildingCatalogItem[] = [
     category: "compost",
     description: "Buried organic matter zone used for soil improvement and unreliable passive heat.",
     baseEffects: ["Improves soil slowly", "May buffer cold", "Requires observation"],
-    yieldModifiers: { water: 1, labor: 1, budget: 0 },
+    yieldModifiers: { food: 1, maintenance: 1, goods: 2, budget: 0, science: 1, culture: 1 },
     maintenance: 1
   },
   {
@@ -52,7 +52,7 @@ export const buildingCatalog: BuildingCatalogItem[] = [
     category: "storage",
     description: "Stored emergency water for remote or semi-wild locations.",
     baseEffects: ["Improves watering reliability", "Reduces field trip risk"],
-    yieldModifiers: { water: 2, labor: 0, budget: 0 },
+    yieldModifiers: { food: 1, maintenance: -1, goods: 1, budget: 0, science: 0, culture: 0 },
     maintenance: 0
   }
 ];
