@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { emptyCityYields } from "../data/cityYields";
 import { initialFarms } from "../data/farms";
 import type { Farm } from "../domain/types";
 
@@ -42,9 +43,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     const messages: string[] = [];
     const farms = state.farms.map((farm) => {
       if (farm.id !== farmId) return farm;
+      const availableWork = Math.max(1, farm.yields.goods - farm.yields.maintenance + 2);
       const nextQueue = farm.productionQueue.map((task) => {
         if (task.id !== taskId || task.completed) return task;
-        const progress = Math.min(task.requiredLabor, task.progress + farm.yields.labor);
+        const progress = Math.min(task.requiredLabor, task.progress + availableWork);
         const completed = progress >= task.requiredLabor;
         if (completed) messages.push(`${farm.name}: completed ${task.name}. ${task.reward}`);
         return { ...task, progress, completed };
@@ -60,32 +62,37 @@ export const useGameStore = create<GameState>((set, get) => ({
       const workedTiles = farm.tiles.filter((tile) => tile.workedByCitizen);
       const yields = workedTiles.reduce(
         (sum, tile) => ({
-          water: sum.water + tile.yields.water,
-          labor: sum.labor + tile.yields.labor,
+          food: sum.food + tile.yields.food,
+          maintenance: sum.maintenance + tile.yields.maintenance,
+          goods: sum.goods + tile.yields.goods,
           budget: sum.budget + tile.yields.budget,
+          science: sum.science + tile.yields.science,
+          culture: sum.culture + tile.yields.culture,
         }),
-        { water: 0, labor: 0, budget: 0 }
+        { ...emptyCityYields }
       );
 
-      const storedWater = Math.max(0, Math.min(100, farm.storedWater + yields.water - farm.plants.length * 3));
+      const storedWater = Math.max(0, Math.min(100, farm.storedWater + yields.food - farm.plants.length * 3));
       const fertilizer = Math.max(0, Math.min(100, farm.fertilizer - farm.plants.length));
       const stress = storedWater < 20 || fertilizer < 10 ? 8 : 0;
+      const maintenanceStress = Math.max(0, yields.maintenance - yields.goods);
 
       const plants = farm.plants.map((plant) => ({
         ...plant,
         daysOld: plant.daysOld + 1,
-        health: Math.max(0, Math.min(100, plant.health + farm.health - farm.maintenance - stress)),
+        health: Math.max(0, Math.min(100, plant.health + farm.health - farm.maintenance - stress - maintenanceStress)),
         stage: advanceStage(plant.stage, plant.daysOld + 1)
       }));
 
       if (stress) messages.push(`${farm.name}: resource stress is hurting plants.`);
+      if (maintenanceStress > 0) messages.push(`${farm.name}: maintenance pressure is rising.`);
 
       return {
         ...farm,
         yields,
         storedWater,
         fertilizer,
-        budgetSpent: farm.budgetSpent + yields.budget,
+        budgetSpent: farm.budgetSpent + Math.max(0, -yields.budget),
         plants
       };
     });
