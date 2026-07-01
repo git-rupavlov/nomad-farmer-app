@@ -7,6 +7,34 @@ export type TerrainKind = "balcony" | "container" | "greenhouse" | "field" | "wi
 export type ImprovementKind = "trellis" | "mulch" | "drip_irrigation" | "compost_layer" | "shade_net" | "cold_frame";
 export type PlantStage = "seed" | "seedling" | "vegetative" | "flowering" | "fruiting" | "harvest";
 
+export type PlantDocType =
+  | "life_cycle"
+  | "cultivation_guide"
+  | "propagation"
+  | "soil_requirements"
+  | "watering"
+  | "fertilization"
+  | "pests_diseases"
+  | "harvest"
+  | "storage"
+  | "experiments"
+  | "notes";
+
+export interface PlantDoc {
+  id: string;
+  plantId: string;
+  speciesId: string;
+  title: string;
+  type: PlantDocType;
+  contentMarkdown: string;
+  version: string;
+  status: "draft" | "active" | "archived";
+  createdAt: string;
+  updatedAt: string;
+  source?: string;
+  tags?: string[];
+}
+
 export interface FarmTile {
   id: string;
   name: string;
@@ -41,6 +69,7 @@ export interface PlantInventoryItem {
     disease?: boolean;
   };
   notes?: string;
+  docs?: PlantDoc[];
 }
 
 export interface BuildingInventoryItem {
