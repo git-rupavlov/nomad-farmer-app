@@ -1,7 +1,9 @@
-import type { FarmTile, PlantInventoryItem, Yields } from "../domain/types";
+import { useMemo, useState } from "react";
+import type { FarmTile, PlantDoc, PlantInventoryItem, Yields } from "../domain/types";
 import { cityYieldDefinitions } from "../data/cityYields";
 import { getBuildingCatalogItem } from "../data/buildingCatalog";
 import { getImprovementArchetype } from "../data/improvementArchetypes";
+import { getPlantDocs } from "../data/plantDocs";
 import { formatSpeciesName } from "../data/species";
 import { getTerrainArchetype } from "../data/terrainArchetypes";
 import { unlockTree } from "../data/unlockTree";
@@ -14,10 +16,15 @@ export function FarmCityScreen() {
   const workTask = useGameStore((state) => state.workTask);
   const toggleTile = useGameStore((state) => state.toggleTile);
   const nextTurn = useGameStore((state) => state.nextTurn);
+  const [selectedPlantId, setSelectedPlantId] = useState<string | undefined>();
+  const [selectedDocId, setSelectedDocId] = useState<string | undefined>();
 
   if (!farm) return null;
 
   const plantSummary = summarizePlantInventory(farm.plantInventory);
+  const selectedPlant = farm.plantInventory.find((plant) => plant.id === selectedPlantId) ?? farm.plantInventory[0];
+  const selectedPlantDocs = selectedPlant ? getPlantDocs(selectedPlant) : [];
+  const selectedDoc = selectedPlantDocs.find((doc) => doc.id === selectedDocId) ?? selectedPlantDocs[0];
 
   return (
     <section className="city-screen">
@@ -77,8 +84,25 @@ export function FarmCityScreen() {
               <span>Tile</span>
               <span>Status</span>
             </div>
-            {farm.plantInventory.map((plant) => <PlantInventoryRow key={plant.id} plant={plant} />)}
+            {farm.plantInventory.map((plant) => (
+              <PlantInventoryRow
+                key={plant.id}
+                plant={plant}
+                selected={plant.id === selectedPlant.id}
+                onSelect={() => {
+                  setSelectedPlantId(plant.id);
+                  setSelectedDocId(undefined);
+                }}
+              />
+            ))}
           </div>
+
+          <PlantDocsSection
+            plant={selectedPlant}
+            docs={selectedPlantDocs}
+            selectedDoc={selectedDoc}
+            onSelectDoc={setSelectedDocId}
+          />
         </main>
 
         <aside className="city-right panel">
@@ -114,9 +138,9 @@ export function FarmCityScreen() {
   );
 }
 
-function PlantInventoryRow({ plant }: { plant: PlantInventoryItem }) {
+function PlantInventoryRow({ plant, selected, onSelect }: { plant: PlantInventoryItem; selected: boolean; onSelect: () => void }) {
   return (
-    <article className={`plant-inventory-row status-${plant.status}`}>
+    <button className={`plant-inventory-row status-${plant.status} ${selected ? "selected" : ""}`} onClick={onSelect}>
       <span>{plant.quantity}</span>
       <span>
         <strong>{formatSpeciesName(plant.speciesId)}</strong>
@@ -127,8 +151,158 @@ function PlantInventoryRow({ plant }: { plant: PlantInventoryItem }) {
       <span>{plant.health}%</span>
       <span>{plant.tileId}<small>{plant.container}</small></span>
       <span>{plant.status}<small>{formatObservedFlags(plant)}</small></span>
-    </article>
+    </button>
   );
+}
+
+function PlantDocsSection({
+  plant,
+  docs,
+  selectedDoc,
+  onSelectDoc
+}: {
+  plant?: PlantInventoryItem;
+  docs: PlantDoc[];
+  selectedDoc?: PlantDoc;
+  onSelectDoc: (docId: string) => void;
+}) {
+  if (!plant) return null;
+
+  return (
+    <section className="plant-docs-section" aria-label="Plant documentation">
+      <h2>Docs / Monitor / Plants / {plant.id}</h2>
+      <p className="small">Child documentation records for {formatSpeciesName(plant.speciesId)}. Scoped to this exact plant inventory item, not dumped into the global note swamp.</p>
+
+      <div className="plant-docs-layout">
+        <nav className="plant-doc-list" aria-label="Plant document list">
+          {docs.map((doc) => (
+            <button
+              key={doc.id}
+              className={`plant-doc-tab ${selectedDoc?.id === doc.id ? "selected" : ""}`}
+              onClick={() => onSelectDoc(doc.id)}
+            >
+              <strong>{doc.title}</strong>
+              <small>{doc.type} | {doc.status} | v{doc.version}</small>
+            </button>
+          ))}
+        </nav>
+
+        {selectedDoc ? (
+          <article className="plant-doc-viewer">
+            <header>
+              <h3>{selectedDoc.title}</h3>
+              <p className="small">/{plant.id}/docs/{selectedDoc.id}</p>
+            </header>
+            <MarkdownBlock content={selectedDoc.contentMarkdown} />
+          </article>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function MarkdownBlock({ content }: { content: string }) {
+  const blocks = useMemo(() => parseMarkdownBlocks(content), [content]);
+
+  return (
+    <div className="markdown-block">
+      {blocks.map((block, index) => {
+        if (block.type === "h1") return <h3 key={index}>{block.content}</h3>;
+        if (block.type === "h2") return <h4 key={index}>{block.content}</h4>;
+        if (block.type === "h3") return <h5 key={index}>{block.content}</h5>;
+        if (block.type === "ul") return <ul key={index}>{block.items.map((item) => <li key={item}>{item}</li>)}</ul>;
+        if (block.type === "ol") return <ol key={index}>{block.items.map((item) => <li key={item}>{item}</li>)}</ol>;
+        if (block.type === "code") return <pre key={index}>{block.content}</pre>;
+        return <p key={index}>{block.content}</p>;
+      })}
+    </div>
+  );
+}
+
+type ParsedMarkdownBlock =
+  | { type: "h1" | "h2" | "h3" | "p" | "code"; content: string }
+  | { type: "ul" | "ol"; items: string[] };
+
+function parseMarkdownBlocks(content: string): ParsedMarkdownBlock[] {
+  const lines = content.split("\n");
+  const blocks: ParsedMarkdownBlock[] = [];
+  let list: { type: "ul" | "ol"; items: string[] } | undefined;
+  let code: string[] | undefined;
+
+  const flushList = () => {
+    if (list) blocks.push(list);
+    list = undefined;
+  };
+
+  const flushCode = () => {
+    if (code) blocks.push({ type: "code", content: code.join("\n") });
+    code = undefined;
+  };
+
+  lines.forEach((line) => {
+    if (line.trim().startsWith("```")) {
+      if (code) flushCode();
+      else {
+        flushList();
+        code = [];
+      }
+      return;
+    }
+
+    if (code) {
+      code.push(line);
+      return;
+    }
+
+    const trimmed = line.trim();
+    if (!trimmed) {
+      flushList();
+      return;
+    }
+
+    if (trimmed.startsWith("### ")) {
+      flushList();
+      blocks.push({ type: "h3", content: trimmed.slice(4) });
+      return;
+    }
+
+    if (trimmed.startsWith("## ")) {
+      flushList();
+      blocks.push({ type: "h2", content: trimmed.slice(3) });
+      return;
+    }
+
+    if (trimmed.startsWith("# ")) {
+      flushList();
+      blocks.push({ type: "h1", content: trimmed.slice(2) });
+      return;
+    }
+
+    if (trimmed.startsWith("- ")) {
+      if (!list || list.type !== "ul") {
+        flushList();
+        list = { type: "ul", items: [] };
+      }
+      list.items.push(trimmed.slice(2));
+      return;
+    }
+
+    if (/^\d+\.\s/.test(trimmed)) {
+      if (!list || list.type !== "ol") {
+        flushList();
+        list = { type: "ol", items: [] };
+      }
+      list.items.push(trimmed.replace(/^\d+\.\s/, ""));
+      return;
+    }
+
+    flushList();
+    blocks.push({ type: "p", content: trimmed });
+  });
+
+  flushList();
+  flushCode();
+  return blocks;
 }
 
 function YieldGrid({ yields }: { yields: Yields }) {
