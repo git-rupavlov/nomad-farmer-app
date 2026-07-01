@@ -30,13 +30,8 @@ export function FarmCityScreen() {
     <section className="city-screen">
       <header className="city-header panel">
         <button onClick={closeFarm}>← World Map</button>
-        <div>
-          <h1>{farm.name}</h1>
-          <p>{farm.subtitle}</p>
-        </div>
-        <div className="turn-actions">
-          <button onClick={nextTurn}>End Turn</button>
-        </div>
+        <div><h1>{farm.name}</h1><p>{farm.subtitle}</p></div>
+        <div className="turn-actions"><button onClick={nextTurn}>End Turn</button></div>
       </header>
 
       <div className="city-layout">
@@ -59,8 +54,7 @@ export function FarmCityScreen() {
           <div className="unlock-list">
             {unlockTree.map((node) => (
               <article key={node.id} className={`unlock-node ${node.unlocked ? "unlocked" : "locked"}`}>
-                <strong>{node.name}</strong>
-                <span>{node.unlocked ? "Unlocked" : "Locked"}</span>
+                <strong>{node.name}</strong><span>{node.unlocked ? "Unlocked" : "Locked"}</span>
               </article>
             ))}
           </div>
@@ -69,26 +63,19 @@ export function FarmCityScreen() {
         <main className="city-center panel">
           <h2>Citizen Tile Management</h2>
           <div className="tile-grid">
-            {farm.tiles.map((tile) => (
-              <TileCard key={tile.id} tile={tile} onClick={() => toggleTile(farm.id, tile.id)} />
-            ))}
+            {farm.tiles.map((tile) => <TileCard key={tile.id} tile={tile} onClick={() => toggleTile(farm.id, tile.id)} />)}
           </div>
 
           <h2>Exact Plant Inventory</h2>
           <div className="plant-inventory-table">
             <div className="plant-inventory-head">
-              <span>Qty</span>
-              <span>Plant</span>
-              <span>Stage</span>
-              <span>Health</span>
-              <span>Tile</span>
-              <span>Status</span>
+              <span>Qty</span><span>Plant</span><span>Stage</span><span>Health</span><span>Tile</span><span>Status</span>
             </div>
             {farm.plantInventory.map((plant) => (
               <PlantInventoryRow
                 key={plant.id}
                 plant={plant}
-                selected={plant.id === selectedPlant.id}
+                selected={plant.id === selectedPlant?.id}
                 onSelect={() => {
                   setSelectedPlantId(plant.id);
                   setSelectedDocId(undefined);
@@ -97,12 +84,7 @@ export function FarmCityScreen() {
             ))}
           </div>
 
-          <PlantDocsSection
-            plant={selectedPlant}
-            docs={selectedPlantDocs}
-            selectedDoc={selectedDoc}
-            onSelectDoc={setSelectedDocId}
-          />
+          <PlantDocsSection plant={selectedPlant} docs={selectedPlantDocs} selectedDoc={selectedDoc} onSelectDoc={setSelectedDocId} />
         </main>
 
         <aside className="city-right panel">
@@ -112,9 +94,7 @@ export function FarmCityScreen() {
               <strong>{task.name}</strong>
               <p>{task.description}</p>
               <Meter label="Progress" value={(task.progress / task.requiredLabor) * 100} />
-              <button disabled={task.completed} onClick={() => workTask(farm.id, task.id)}>
-                {task.completed ? "Completed" : "Apply Work"}
-              </button>
+              <button disabled={task.completed} onClick={() => workTask(farm.id, task.id)}>{task.completed ? "Completed" : "Apply Work"}</button>
               <small>{task.reward}</small>
             </article>
           ))}
@@ -155,44 +135,24 @@ function PlantInventoryRow({ plant, selected, onSelect }: { plant: PlantInventor
   );
 }
 
-function PlantDocsSection({
-  plant,
-  docs,
-  selectedDoc,
-  onSelectDoc
-}: {
-  plant?: PlantInventoryItem;
-  docs: PlantDoc[];
-  selectedDoc?: PlantDoc;
-  onSelectDoc: (docId: string) => void;
-}) {
+function PlantDocsSection({ plant, docs, selectedDoc, onSelectDoc }: { plant?: PlantInventoryItem; docs: PlantDoc[]; selectedDoc?: PlantDoc; onSelectDoc: (docId: string) => void }) {
   if (!plant) return null;
 
   return (
     <section className="plant-docs-section" aria-label="Plant documentation">
       <h2>Docs / Monitor / Plants / {plant.id}</h2>
       <p className="small">Child documentation records for {formatSpeciesName(plant.speciesId)}. Scoped to this exact plant inventory item, not dumped into the global note swamp.</p>
-
       <div className="plant-docs-layout">
         <nav className="plant-doc-list" aria-label="Plant document list">
           {docs.map((doc) => (
-            <button
-              key={doc.id}
-              className={`plant-doc-tab ${selectedDoc?.id === doc.id ? "selected" : ""}`}
-              onClick={() => onSelectDoc(doc.id)}
-            >
-              <strong>{doc.title}</strong>
-              <small>{doc.type} | {doc.status} | v{doc.version}</small>
+            <button key={doc.id} className={`plant-doc-tab ${selectedDoc?.id === doc.id ? "selected" : ""}`} onClick={() => onSelectDoc(doc.id)}>
+              <strong>{doc.title}</strong><small>{doc.type} | {doc.status} | v{doc.version}</small>
             </button>
           ))}
         </nav>
-
         {selectedDoc ? (
           <article className="plant-doc-viewer">
-            <header>
-              <h3>{selectedDoc.title}</h3>
-              <p className="small">/{plant.id}/docs/{selectedDoc.id}</p>
-            </header>
+            <header><h3>{selectedDoc.title}</h3><p className="small">/{plant.id}/docs/{selectedDoc.id}</p></header>
             <MarkdownBlock content={selectedDoc.contentMarkdown} />
           </article>
         ) : null}
@@ -229,73 +189,28 @@ function parseMarkdownBlocks(content: string): ParsedMarkdownBlock[] {
   let list: { type: "ul" | "ol"; items: string[] } | undefined;
   let code: string[] | undefined;
 
-  const flushList = () => {
-    if (list) blocks.push(list);
-    list = undefined;
-  };
-
-  const flushCode = () => {
-    if (code) blocks.push({ type: "code", content: code.join("\n") });
-    code = undefined;
-  };
+  const flushList = () => { if (list) blocks.push(list); list = undefined; };
+  const flushCode = () => { if (code) blocks.push({ type: "code", content: code.join("\n") }); code = undefined; };
 
   lines.forEach((line) => {
-    if (line.trim().startsWith("```")) {
-      if (code) flushCode();
-      else {
-        flushList();
-        code = [];
-      }
-      return;
-    }
-
-    if (code) {
-      code.push(line);
-      return;
-    }
+    if (line.trim().startsWith("```")) { code ? flushCode() : (flushList(), code = []); return; }
+    if (code) { code.push(line); return; }
 
     const trimmed = line.trim();
-    if (!trimmed) {
-      flushList();
-      return;
-    }
-
-    if (trimmed.startsWith("### ")) {
-      flushList();
-      blocks.push({ type: "h3", content: trimmed.slice(4) });
-      return;
-    }
-
-    if (trimmed.startsWith("## ")) {
-      flushList();
-      blocks.push({ type: "h2", content: trimmed.slice(3) });
-      return;
-    }
-
-    if (trimmed.startsWith("# ")) {
-      flushList();
-      blocks.push({ type: "h1", content: trimmed.slice(2) });
-      return;
-    }
-
+    if (!trimmed) { flushList(); return; }
+    if (trimmed.startsWith("### ")) { flushList(); blocks.push({ type: "h3", content: trimmed.slice(4) }); return; }
+    if (trimmed.startsWith("## ")) { flushList(); blocks.push({ type: "h2", content: trimmed.slice(3) }); return; }
+    if (trimmed.startsWith("# ")) { flushList(); blocks.push({ type: "h1", content: trimmed.slice(2) }); return; }
     if (trimmed.startsWith("- ")) {
-      if (!list || list.type !== "ul") {
-        flushList();
-        list = { type: "ul", items: [] };
-      }
+      if (!list || list.type !== "ul") { flushList(); list = { type: "ul", items: [] }; }
       list.items.push(trimmed.slice(2));
       return;
     }
-
     if (/^\d+\.\s/.test(trimmed)) {
-      if (!list || list.type !== "ol") {
-        flushList();
-        list = { type: "ol", items: [] };
-      }
+      if (!list || list.type !== "ol") { flushList(); list = { type: "ol", items: [] }; }
       list.items.push(trimmed.replace(/^\d+\.\s/, ""));
       return;
     }
-
     flushList();
     blocks.push({ type: "p", content: trimmed });
   });
@@ -306,18 +221,7 @@ function parseMarkdownBlocks(content: string): ParsedMarkdownBlock[] {
 }
 
 function YieldGrid({ yields }: { yields: Yields }) {
-  return (
-    <div className="yield-grid">
-      {cityYieldDefinitions.map((definition) => (
-        <Yield
-          key={definition.key}
-          label={definition.label}
-          icon={definition.icon}
-          value={yields[definition.key]}
-        />
-      ))}
-    </div>
-  );
+  return <div className="yield-grid">{cityYieldDefinitions.map((definition) => <Yield key={definition.key} label={definition.label} icon={definition.icon} value={yields[definition.key]} />)}</div>;
 }
 
 function Yield({ label, icon, value }: { label: string; icon: string; value: number }) {
@@ -326,12 +230,7 @@ function Yield({ label, icon, value }: { label: string; icon: string; value: num
 
 function Meter({ label, value }: { label: string; value: number }) {
   const bounded = Math.max(0, Math.min(100, Math.round(value)));
-  return (
-    <div className="meter">
-      <div className="meter-label"><span>{label}</span><span>{bounded}%</span></div>
-      <div className="meter-track"><div className="meter-fill" style={{ width: `${bounded}%` }} /></div>
-    </div>
-  );
+  return <div className="meter"><div className="meter-label"><span>{label}</span><span>{bounded}%</span></div><div className="meter-track"><div className="meter-fill" style={{ width: `${bounded}%` }} /></div></div>;
 }
 
 function TileCard({ tile, onClick }: { tile: FarmTile; onClick: () => void }) {
@@ -366,11 +265,6 @@ function formatYieldSummary(yields: Yields) {
 }
 
 function formatObservedFlags(plant: PlantInventoryItem) {
-  const flags = [
-    plant.observed.flowering ? "flowering" : undefined,
-    plant.observed.fruiting ? "fruiting" : undefined,
-    plant.observed.pests ? "pests" : undefined,
-    plant.observed.disease ? "disease" : undefined
-  ].filter(Boolean);
+  const flags = [plant.observed.flowering ? "flowering" : undefined, plant.observed.fruiting ? "fruiting" : undefined, plant.observed.pests ? "pests" : undefined, plant.observed.disease ? "disease" : undefined].filter(Boolean);
   return flags.length ? flags.join(", ") : "no flags";
 }
